@@ -1,9 +1,11 @@
 from typing import Dict, Any
+from enum import IntEnum
 import pandas as pd
 
-EXIT_POSITION = 0
-LONG_POSITION = 1
-SHORT_POSITION = -1
+class Position(IntEnum):
+    EXIT = 0
+    LONG = 1
+    SHORT = -1
 
 class StrategyBase:
     """Base class for investment strategies."""

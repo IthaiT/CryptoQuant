@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cryptoquant"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+  "python-binance>=1.0.19",
+  "pandas>=2.0",
+  "ta-lib>=0.4.28",
+  "numpy>=1.24",
+  "python-dotenv>=1.0.0",
+  "ccxt>=4.0.0",
+  "tqdm>=4.65.0",
+]
+
+[tool.setuptools]
+packages = ["src.strategy", "src.backtest"]

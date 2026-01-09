@@ -1,1 +1,6 @@
-venv
+venv/
+__pycache__/
+*.egg-info/
+*.pyc
+.vscode/
+.env

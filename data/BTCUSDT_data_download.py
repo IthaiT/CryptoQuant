@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from tqdm import tqdm
 import time
 import logging
+import os
 
 # =====================
 # 日志设置
@@ -82,7 +83,8 @@ def download_ohlcv(timeframe: str):
     assert timeframe in TIMEFRAME_CONFIG, f"不支持的周期: {timeframe}"
 
     tf_minutes = TIMEFRAME_CONFIG[timeframe]
-    output_csv = f"btc-usdt-{timeframe}.csv"
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_csv = os.path.join(script_dir, f"btc-usdt-{timeframe}.csv")
 
     start_ts, end_ts = get_time_range(START_DATE, END_DATE)
     since = start_ts

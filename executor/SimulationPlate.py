@@ -1,13 +1,21 @@
 import time
-import numpy as np
-import talib
+import os
 import pandas as pd
 from binance.client import Client
 from binance.enums import *
+from src.strategy.RSIStrategy import RSIStrategy
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
 
 # Binance Testnet 配置
-API_KEY = 'your_testnet_api_key'
-API_SECRET = 'your_testnet_api_secret'
+API_KEY = os.getenv('BINANCE_API_KEY')
+API_SECRET = os.getenv('BINANCE_API_SECRET')
+
+# 验证配置
+if not API_KEY or not API_SECRET:
+    raise ValueError("请在 .env 文件中配置 BINANCE_API_KEY 和 BINANCE_API_SECRET")
 
 # Binance Client
 client = Client(API_KEY, API_SECRET, testnet=True)

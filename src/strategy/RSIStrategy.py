@@ -1,5 +1,6 @@
-from StrategyBase import *
+from .StrategyBase import StrategyBase, Position
 import talib
+import pandas as pd
 import numpy as np
 from typing import Dict, Any
 
@@ -21,9 +22,6 @@ class RSIStrategy(StrategyBase):
         self.enter_short = enter_short
         self.exit_short = exit_short
         self.name = RSIStrategy.NAME
-        # f"{RSIStrategy.NAME}(" +\
-        #     "window={self.window_size}," +\
-        #     "[{self.oversold}, {self.overbought}])"
 
     def info(self) -> Dict[str, Any]:
         return {
@@ -36,7 +34,7 @@ class RSIStrategy(StrategyBase):
         }
 
     def run(self, data: pd.DataFrame):
-        array = data['close_price'].to_numpy()
+        array = data['close'].to_numpy()
 
         rsi = talib.RSI(array, timeperiod=self.window_size)
         enter_long = rsi > (self.enter_long or np.infty)
@@ -46,13 +44,13 @@ class RSIStrategy(StrategyBase):
         exit_short = rsi > (self.exit_short or np.infty)
 
         positions = np.full(rsi.shape, np.nan)
-        positions[exit_long | exit_short] = EXIT_POSITION
-        positions[enter_long] = LONG_POSITION
-        positions[enter_short] = SHORT_POSITION
+        positions[exit_long | exit_short] = Position.EXIT
+        positions[enter_long] = Position.LONG
+        positions[enter_short] = Position.SHORT
 
         # Fix the first position
         if np.isnan(positions[0]):
-            positions[0] = EXIT_POSITION
+            positions[0] = Position.EXIT
 
         mask = np.isnan(positions)
         idx = np.where(~mask, np.arange(mask.size), 0)
@@ -60,10 +58,3 @@ class RSIStrategy(StrategyBase):
         positions[mask] = positions[idx[mask]]
 
         return positions.astype(np.int32)
-        # result = rsi_obos(rsi, self.oversold, self.overbought)
-
-        # run_info = {
-        #     'rsi': rsi
-        # }
-
-        # return result  # , run_info
