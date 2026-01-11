@@ -1,0 +1,87 @@
+"""
+BTC/USDT RSI 策略回测示例
+使用 Backtrader 框架
+"""
+import os
+import sys
+
+# 添加项目路径（项目根目录：CryptoQuant）
+project_root = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, project_root)
+
+# 可选：导入演示数据生成器
+try:
+    from Data.generate_demo_data import generate_demo_data
+except Exception:
+    generate_demo_data = None
+
+from src.backtest import quick_backtest, RSIBacktraderStrategy
+
+
+def main():
+    """主函数"""
+    
+    # 数据文件路径 (使用下载的 5 分钟数据)
+    # 同时兼容 Data/ 与 data/ 两种目录名
+    candidates = [
+        os.path.join(project_root, "Data", "btc-usdt-5m.csv"),
+        os.path.join(project_root, "data", "btc-usdt-5m.csv"),
+    ]
+    data_path = None
+    for p in candidates:
+        if os.path.exists(p):
+            data_path = p
+            break
+    
+    # 检查数据文件是否存在；如不存在尝试生成演示数据
+    if not data_path:
+        print("❌ 未找到数据文件: 期望位置为以下之一：")
+        for p in candidates:
+            print(f" - {p}")
+        if generate_demo_data is not None:
+            print("➡️ 尝试生成演示数据以便展示回测结果...")
+            try:
+                data_path = generate_demo_data(filename="btc-usdt-5m.csv", n_bars=10000)
+                print(f"✅ 已生成演示数据: {data_path}")
+            except Exception as e:
+                print(f"❌ 生成演示数据失败: {e}")
+                print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
+                return
+        else:
+            print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
+            return
+    
+    print("=" * 60)
+    print("BTC/USDT RSI 策略回测")
+    print("=" * 60)
+    print(f"数据文件: {data_path}")
+    print(f"时间周期: 5 分钟")
+    print("=" * 60)
+    
+    # 策略参数
+    strategy_params = {
+        'rsi_period': 14,       # RSI 周期
+        'rsi_oversold': 30,     # 超卖线 (买入)
+        'rsi_overbought': 70,   # 超买线 (卖出)
+        'printlog': False,      # 是否打印日志
+    }
+    
+    # 运行回测
+    results = quick_backtest(
+        csv_path=data_path,
+        strategy_class=RSIBacktraderStrategy,
+        strategy_params=strategy_params,
+        initial_cash=10000.0,      # 初始资金 10000 USDT
+        commission=0.0004,          # 手续费 0.04% (币安现货)
+        output_dir="./reports",     # 报告输出目录
+        strategy_name="BTC_RSI_5m"  # 策略名称
+    )
+    
+    # 打印关键指标
+    print("\n" + "=" * 60)
+    print("回测完成！报告已生成在 ./reports 目录")
+    print("=" * 60)
+    
+
+if __name__ == "__main__":
+    main()
