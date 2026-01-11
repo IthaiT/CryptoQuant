@@ -6,6 +6,7 @@ from datetime import datetime
 from .data_loader import load_crypto_data
 from .analyzers import TradingAnalyzer, CryptoCommissionScheme
 from .visualizer import BacktestVisualizer
+from .realtime_chart import RealtimeChartPlotter
 import os
 
 
@@ -17,18 +18,22 @@ class BacktestEngine:
     def __init__(self, 
                  initial_cash=10000.0,
                  commission=0.0004,
-                 slippage=0.0002):
+                 slippage=0.0002,
+                 enable_realtime_chart=True):
         """
         Args:
             initial_cash: 初始资金 (USDT)
             commission: 手续费率 (默认 0.04%)
             slippage: 滑点 (默认 0.02%)
+            enable_realtime_chart: 是否启用实时K线图表
         """
         self.initial_cash = initial_cash
         self.commission = commission
         self.slippage = slippage
+        self.enable_realtime_chart = enable_realtime_chart
         self.cerebro = None
         self.results = None
+        self.plotter = None
         
     def setup(self, strategy_class, strategy_params=None):
         """
@@ -39,6 +44,13 @@ class BacktestEngine:
             strategy_params: 策略参数字典
         """
         self.cerebro = bt.Cerebro()
+        
+        # 初始化实时K线图表绘制器
+        if self.enable_realtime_chart:
+            self.plotter = RealtimeChartPlotter()
+            if not strategy_params:
+                strategy_params = {}
+            strategy_params['plotter'] = self.plotter
         
         # 添加策略
         if strategy_params:
@@ -75,6 +87,16 @@ class BacktestEngine:
         data = load_crypto_data(csv_path, fromdate=fromdate, todate=todate)
         self.cerebro.adddata(data)
         
+        # 根据数据大小动态调整 plotter 的 max_bars
+        if self.plotter:
+            import pandas as pd
+            df = pd.read_csv(csv_path)
+            data_count = len(df)
+            # 设置 max_bars 为数据行数加上 10% 的缓冲
+            max_bars = int(data_count * 1.1)
+            self.plotter.set_max_bars(max_bars)
+            print(f'数据行数: {data_count}, 设置图表最大显示: {max_bars}')
+        
     def run(self):
         """运行回测"""
         if not self.cerebro:
@@ -84,8 +106,22 @@ class BacktestEngine:
         print(f'初始资金: {self.initial_cash:.2f} USDT')
         print('=' * 60)
         
-        # 运行回测
+        if self.plotter:
+            # 启动TradingView风格的本地Web图表
+            try:
+                self.plotter.start_live(interval_sec=0.5)
+                import time
+                time.sleep(1)  # Give server time to fully initialize before backtest starts
+                print('Web server is running at http://127.0.0.1:8765')
+            except Exception as e:
+                print(f'Warning: Chart startup error: {e}')
+        # 运行回测（Web图表在后台线程中运行，无需阻塞）
         self.results = self.cerebro.run()
+        
+        # 等待前端获取最后的数据
+        if self.plotter:
+            import time
+            time.sleep(2)  # Give frontend time to fetch final bars and signals
         
         # 获取最终资金
         final_value = self.cerebro.broker.getvalue()
@@ -94,6 +130,8 @@ class BacktestEngine:
         print(f'收益: {final_value - self.initial_cash:.2f} USDT ({(final_value/self.initial_cash - 1)*100:.2f}%)')
         print('=' * 60)
         
+        # Web图表无需保存图片；如需导出请手动截图或后续扩展
+
         return self.results
     
     def get_analysis(self):
@@ -196,8 +234,8 @@ def quick_backtest(csv_path,
     # 运行回测
     engine.run()
     
-    # 生成报告
-    engine.plot(output_dir=output_dir, strategy_name=strategy_name)
+    # Web 图表已经显示，不需要生成 matplotlib 报告
+    # engine.plot(output_dir=output_dir, strategy_name=strategy_name)
     
     # 返回分析结果
     return engine.get_analysis()

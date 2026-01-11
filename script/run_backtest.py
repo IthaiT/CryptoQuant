@@ -4,10 +4,16 @@ BTC/USDT RSI 策略回测示例
 """
 import os
 import sys
+from pathlib import Path
 
 # 添加项目路径（项目根目录：CryptoQuant）
-project_root = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, project_root)
+current_file = Path(__file__).resolve()
+project_root = current_file.parent.parent  # script/ 的上一级就是项目根目录
+sys.path.insert(0, str(project_root))
+
+# 设置 matplotlib 后端以支持实时图表
+import matplotlib
+matplotlib.use('TkAgg')
 
 # 可选：导入演示数据生成器
 try:
@@ -24,13 +30,13 @@ def main():
     # 数据文件路径 (使用下载的 5 分钟数据)
     # 同时兼容 Data/ 与 data/ 两种目录名
     candidates = [
-        os.path.join(project_root, "Data", "btc-usdt-5m.csv"),
-        os.path.join(project_root, "data", "btc-usdt-5m.csv"),
+        project_root / "Data" / "btc-usdt-5m.csv",
+        project_root / "data" / "btc-usdt-5m.csv",
     ]
     data_path = None
     for p in candidates:
-        if os.path.exists(p):
-            data_path = p
+        if p.exists():
+            data_path = str(p)
             break
     
     # 检查数据文件是否存在；如不存在尝试生成演示数据
@@ -73,7 +79,7 @@ def main():
         strategy_params=strategy_params,
         initial_cash=10000.0,      # 初始资金 10000 USDT
         commission=0.0004,          # 手续费 0.04% (币安现货)
-        output_dir="./reports",     # 报告输出目录
+        output_dir=str(project_root / "reports"),  # 报告输出目录
         strategy_name="BTC_RSI_5m"  # 策略名称
     )
     
@@ -81,6 +87,19 @@ def main():
     print("\n" + "=" * 60)
     print("回测完成！报告已生成在 ./reports 目录")
     print("=" * 60)
+    print("\n浏览器打开地址: http://127.0.0.1:8765")
+    print("按 Ctrl+C 退出")
+    print("=" * 60)
+    
+    # 保持服务器运行，让用户能够查看图表
+    try:
+        while True:
+            import time
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("\n服务器已关闭")
+        import sys
+        sys.exit(0)
     
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 Backtrader 策略适配器 - 将现有策略桥接到 Backtrader
 """
 import backtrader as bt
+from .realtime_chart import RealtimeChartPlotter
 
 
 class RSIBacktraderStrategy(bt.Strategy):
@@ -13,6 +14,7 @@ class RSIBacktraderStrategy(bt.Strategy):
         ('rsi_oversold', 30),   # 超卖阈值，买入信号
         ('rsi_overbought', 70), # 超买阈值，卖出信号
         ('printlog', False),
+        ('plotter', None),      # RealtimeChartPlotter instance
     )
 
     def __init__(self):
@@ -45,6 +47,9 @@ class RSIBacktraderStrategy(bt.Strategy):
                     f'成本: {order.executed.value:.2f}, '
                     f'手续费: {order.executed.comm:.2f}'
                 )
+                # 记录到图表
+                if self.params.plotter:
+                    self.params.plotter.add_buy_signal(order.executed.price)
                 self.buy_price = order.executed.price
                 self.buy_comm = order.executed.comm
             else:
@@ -53,6 +58,9 @@ class RSIBacktraderStrategy(bt.Strategy):
                     f'成本: {order.executed.value:.2f}, '
                     f'手续费: {order.executed.comm:.2f}'
                 )
+                # 记录到图表
+                if self.params.plotter:
+                    self.params.plotter.add_sell_signal(order.executed.price)
 
         elif order.status in [order.Canceled, order.Margin, order.Rejected]:
             self.log('订单取消/保证金不足/拒绝')
@@ -68,6 +76,19 @@ class RSIBacktraderStrategy(bt.Strategy):
 
     def next(self):
         """策略逻辑"""
+        # 更新图表数据
+        if self.params.plotter:
+            self.params.plotter.add_bar(
+                self.data.datetime.datetime(0),
+                self.data.open[0],
+                self.data.high[0],
+                self.data.low[0],
+                self.data.close[0],
+                self.data.volume[0]
+            )
+            # 每10根K线更新一次图表（避免闪烁）
+            self.params.plotter.update_chart()
+        
         # 检查是否有待处理订单
         if self.order:
             return

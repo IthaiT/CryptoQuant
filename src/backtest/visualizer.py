@@ -1,6 +1,8 @@
 """
 可视化模块 - 生成量化回测报表和图表
 """
+import matplotlib
+matplotlib.use('Agg')  # 使用非交互式后端，避免与Qt冲突
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from matplotlib.gridspec import GridSpec

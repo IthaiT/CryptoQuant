@@ -37,9 +37,9 @@ def load_crypto_data(csv_path: str, fromdate=None, todate=None):
     }
     df = df.rename(columns=rename_map)
 
-    # 只保留所需列
+    # 只保留所需列（必须按照Backtrader期望的顺序）
     required_cols = ['open', 'high', 'low', 'close', 'volume']
-    df = df[required_cols].copy()
+    df = df[required_cols].astype('float64').copy()
 
     # 根据 fromdate/todate 进行切片
     if fromdate is not None:
@@ -47,6 +47,13 @@ def load_crypto_data(csv_path: str, fromdate=None, todate=None):
     if todate is not None:
         df = df[df.index <= pd.to_datetime(todate)]
 
-    # 构造 PandasData（索引为 datetime）
-    data = bt.feeds.PandasData(dataname=df)
+    # 确保索引单调递增
+    df = df[~df.index.duplicated(keep='first')]
+    df = df.sort_index()
+
+    # 构造 PandasData（注意：dtformat用于时间戳解析）
+    data = bt.feeds.PandasData(
+        dataname=df,
+        openinterest=-1  # No open interest in crypto data
+    )
     return data

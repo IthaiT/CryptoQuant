@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from tqdm import tqdm
 import time
 import logging
-import os
+from pathlib import Path
 
 # =====================
 # 日志设置
@@ -30,8 +30,8 @@ SYMBOL = "BTC/USDT"
 # START_DATE = "2019-08-21"
 # END_DATE = "2024-07-24"
 
-START_DATE = "2024-07-25"
-END_DATE = "2025-12-25"
+START_DATE = "2025-06-20"
+END_DATE = "2025-12-31"
 
 LIMIT = 1000
 
@@ -83,8 +83,13 @@ def download_ohlcv(timeframe: str):
     assert timeframe in TIMEFRAME_CONFIG, f"不支持的周期: {timeframe}"
 
     tf_minutes = TIMEFRAME_CONFIG[timeframe]
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    output_csv = os.path.join(script_dir, f"btc-usdt-{timeframe}.csv")
+
+    # 以项目根目录为基准，确保 data 目录存在
+    current_file = Path(__file__).resolve()
+    project_root = current_file.parent.parent
+    data_dir = project_root / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+    output_csv = data_dir / f"btc-usdt-{timeframe}.csv"
 
     start_ts, end_ts = get_time_range(START_DATE, END_DATE)
     since = start_ts
