@@ -203,7 +203,8 @@ def quick_backtest(csv_path,
                    initial_cash=10000.0,
                    commission=0.0004,
                    output_dir="./reports",
-                   strategy_name="Strategy"):
+                   strategy_name="Strategy",
+                   generate_report=True):
     """
     快速回测函数
     
@@ -215,6 +216,7 @@ def quick_backtest(csv_path,
         commission: 手续费率
         output_dir: 报告输出目录
         strategy_name: 策略名称
+        generate_report: 是否生成图表和文本报告
     
     Returns:
         分析结果字典
@@ -234,8 +236,9 @@ def quick_backtest(csv_path,
     # 运行回测
     engine.run()
     
-    # Web 图表已经显示，不需要生成 matplotlib 报告
-    # engine.plot(output_dir=output_dir, strategy_name=strategy_name)
+    # 生成静态报告（png + txt），默认开启
+    if generate_report:
+        engine.plot(output_dir=output_dir, strategy_name=strategy_name)
     
     # 返回分析结果
     return engine.get_analysis()
