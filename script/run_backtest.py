@@ -15,12 +15,6 @@ sys.path.insert(0, str(project_root))
 import matplotlib
 matplotlib.use('TkAgg')
 
-# 可选：导入演示数据生成器
-try:
-    from Data.generate_demo_data import generate_demo_data
-except Exception:
-    generate_demo_data = None
-
 from src.backtest import quick_backtest, RSIBacktraderStrategy
 
 
@@ -44,18 +38,9 @@ def main():
         print("❌ 未找到数据文件: 期望位置为以下之一：")
         for p in candidates:
             print(f" - {p}")
-        if generate_demo_data is not None:
-            print("➡️ 尝试生成演示数据以便展示回测结果...")
-            try:
-                data_path = generate_demo_data(filename="btc-usdt-5m.csv", n_bars=10000)
-                print(f"✅ 已生成演示数据: {data_path}")
-            except Exception as e:
-                print(f"❌ 生成演示数据失败: {e}")
-                print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
-                return
-        else:
-            print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
-            return
+
+        print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
+        return
     
     print("=" * 60)
     print("BTC/USDT RSI 策略回测")
