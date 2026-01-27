@@ -18,7 +18,9 @@ dependencies = [
   "fastapi>=0.115.0",
   "uvicorn>=0.30.0",
   "seaborn>=0.12.0",
+  "zstandard>=0.22.0",
+  "requests>=2.31.0",
 ]
 
 [tool.setuptools]
-packages = ["src.strategy", "src.backtest"]
+packages = ["src.strategy", "src.backtest", "src.data_loader"]
