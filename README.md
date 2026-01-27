@@ -1,13 +1,14 @@
-# CryptoQuant - 加密货币量化回测框架
+# CryptoQuant - 加密货币量化框架
 
-基于 Backtrader 的加密货币量化回测系统，支持实时 Web 图表可视化。
+基于 Backtrader 的加密货币量化回测系统，支持实时 Web 图表可视化和高效数据处理。
 
 ## ✨ 核心特性
 
 - 🚀 **TradingView 实时图表** - Web 端交互式 K 线图，支持缩放、平移、逐根播放
 - 📊 **完整回测引擎** - 基于 Backtrader，内置 RSI、均线等策略
 - 📈 **性能分析报告** - 自动生成收益率、夏普比率、最大回撤等指标
-- 💾 **数据下载工具** - 一键下载 Binance 历史数据（支持代理）
+- 💾 **高效数据工具** - Binance 官方数据下载 + 多种 Bar 生成 (Dollar/Volume/Tick/Custom)
+- ⚡ **流式压缩处理** - Zstandard 压缩，内存占用低
 
 ## 🚀 快速开始
 
@@ -19,11 +20,59 @@ pip install -e .
 
 ### 2. 下载数据
 
-```bash
-python script/get_btcusdt_data.py
+```python
+from src.data_loader import RawDataDownloader
+
+# 下载原始交易数据
+downloader = RawDataDownloader()
+downloader.download_agg_trades(
+    symbol="BTCUSDT",
+    start_date="2026-01-20",
+    end_date="2026-01-26"
+)
+
+# 或下载 K 线数据
+downloader.download_klines(
+    symbol="BTCUSDT",
+    start_date="2026-01-20",
+    end_date="2026-01-26",
+    interval="1m"
+)
 ```
 
-### 3. 运行回测
+### 3. 生成 Bar 数据
+
+```python
+from src.data_loader import BarGenerator
+
+generator = BarGenerator()
+
+# Dollar Bar (固定成交额)
+df_bars = generator.generate_dollar_bars(
+    symbol="BTCUSDT",
+    start_date="2026-01-20",
+    end_date="2026-01-26",
+    threshold=500_000.0
+)
+
+# Volume Bar (固定成交量)
+df_bars = generator.generate_volume_bars(
+    symbol="BTCUSDT",
+    start_date="2026-01-20",
+    end_date="2026-01-26",
+    threshold=50.0
+)
+
+# Tick Bar (固定成交笔数)
+df_bars = generator.generate_tick_bars(
+    symbol="BTCUSDT",
+    start_date="2026-01-20",
+    end_date="2026-01-26",
+    threshold=1000
+)
+```
+
+### 4. 运行回测
 
 ```bash
 python script/run_backtest.py
@@ -40,7 +89,7 @@ python script/run_backtest.py
 - 🌙 深色主题，K 线 + 独立成交量图
 - 🔍 鼠标滚轮缩放，拖拽平移
 - 🎯 自动标记买入（青色↑）、卖出（紫色↓）、平仓（黄色■）
-- ▶️ 可选逐根播放模式（Play/Pause/速度调节）
+- ▶️ 可选逐根播放模式
 
 ### 静态报告（`reports/` 目录）
 - 权益曲线、回撤图、月度热力图
@@ -51,27 +100,31 @@ python script/run_backtest.py
 ```
 CryptoQuant/
 ├── script/
-│   ├── run_backtest.py               # 回测主程序 ⭐
-│   └── get_btcusdt_data.py          # 数据下载脚本 ⭐
+│   ├── run_backtest.py              # 回测主程序
+│   ├── get_btcusdt_data.py          # 数据下载脚本
+│   └── simulation_plate.py          # 模拟盘
 ├── src/
 │   ├── backtest/
-│   │   ├── engine.py                 # 回测引擎
-│   │   ├── realtime_chart.py         # 实时图表服务器
-│   │   ├── data_loader.py            # 数据加载
-│   │   └── visualizer.py             # 报告生成
-│   └── strategy/
-│       ├── StrategyBase.py           # 策略基类
-│       └── RSIStrategy.py            # RSI 策略示例
-├── data/                              # 数据目录
-│   └── btc-usdt-5m.csv               # 下载的历史数据
-├── reports/                           # 回测报告输出
-├── docs/                              # 📚 完整文档
-└── pyproject.toml                     # 项目依赖
+│   │   ├── engine.py                # 回测引擎
+│   │   ├── realtime_chart.py        # 实时图表服务器
+│   │   ├── data_loader.py           # 数据加载
+│   │   ├── analyzers.py             # 分析器
+│   │   ├── visualizer.py            # 报告生成
+│   │   └── strategies.py            # 策略示例
+│   └── data_loader/
+│       ├── raw_downloader.py        # Binance 数据下载器
+│       ├── bar_generator.py         # Bar 生成器
+│       └── __init__.py
+├── data/                            # 数据存储目录
+│   ├── raw_data/                    # 原始数据
+│   └── bar_data/                    # 生成的 Bar 数据
+├── docs/                            # 📚 完整文档
+└── pyproject.toml                   # 项目依赖
 ```
 
 ## 💻 使用示例
 
-### 快速回测（推荐）
+### 快速回测
 
 ```python
 from src.backtest.engine import quick_backtest
