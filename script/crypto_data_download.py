@@ -2,7 +2,7 @@
 Download BTC aggTrades data from 2020 to 2025
 This script downloads raw aggregated trade data for BTCUSDT from Binance Vision
 """
-from src.data_loader.raw_data_downloader import RawDataDownloader
+from src.data_handler.raw_data_downloader import RawDataDownloader
 
 def main():
     """Download BTC aggTrades data from 2020-01-01 to 2025-12-31"""

@@ -9,8 +9,8 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.data_loader.raw_data_downloader import RawDataDownloader
-from src.data_loader.bar_generator import DollarBar, VolumeBar, TickBar
+from src.data_handler.raw_data_downloader import RawDataDownloader
+from src.data_handler.bar_generator import DollarBar, VolumeBar, TickBar
 
 # ============================================================
 # Configuration

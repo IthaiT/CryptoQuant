@@ -13,7 +13,8 @@ import pandas as pd
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.data_loader.bar_generator import DollarBar, VolumeBar, TickBar
+from src.data_handler.bar_generator import BarGenerator
+from src.data_handler.bar_rule import DollarBarRule, VolumeBarRule, TickBarRule
 
 
 def parse_args():
@@ -90,14 +91,14 @@ Examples:
     return parser.parse_args()
 
 
-def get_bar_generator(bar_type: str, threshold: float):
-    """Get appropriate bar generator instance."""
+def get_bar_rule(bar_type: str, threshold: float):
+    """Get appropriate bar rule instance."""
     if bar_type == "dollar":
-        return DollarBar(threshold=threshold)
+        return DollarBarRule(threshold=threshold)
     elif bar_type == "volume":
-        return VolumeBar(threshold=threshold)
+        return VolumeBarRule(threshold=threshold)
     elif bar_type == "tick":
-        return TickBar(threshold=int(threshold))
+        return TickBarRule(threshold=int(threshold))
     else:
         raise ValueError(f"Unknown bar type: {bar_type}")
 
@@ -228,11 +229,13 @@ def main():
     print(f"{'='*70}\n")
     
     try:
-        # Create bar generator
-        bar_gen = get_bar_generator(args.bar_type, args.threshold)
+        # Create bar rule and generator
+        bar_rule = get_bar_rule(args.bar_type, args.threshold)
+        bar_gen = BarGenerator()
         
         # Generate bars
         result = bar_gen.generate(
+            bar_rule=bar_rule,
             symbol=args.symbol,
             start_date=args.start,
             end_date=args.end,

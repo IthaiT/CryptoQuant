@@ -24,4 +24,4 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["src.strategy", "src.backtest", "src.data_loader"]
+packages = ["src.strategy", "src.backtest", "src.data_handler"]
