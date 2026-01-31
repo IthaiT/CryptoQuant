@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from binance.client import Client
 from binance.enums import *
-from src.strategy.RSIStrategy import RSIStrategy
+from src.strategies.RSIStrategy import RSIStrategy
 from dotenv import load_dotenv
 
 # 加载环境变量

@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 import pandas as pd
 import numpy as np
-from src.strategy.RSIStrategy import RSIStrategy, Position
+from src.strategies.RSIStrategy import RSIStrategy, Position
 
 
 def test_rsi_strategy_run_return_type():
