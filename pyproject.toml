@@ -20,7 +20,8 @@ dependencies = [
   "seaborn>=0.12.0",
   "zstandard>=0.22.0",
   "requests>=2.31.0",
+  "scipy>=1.15.3",
 ]
 
 [tool.setuptools]
-packages = ["src.strategy", "src.backtest", "src.data_loader"]
+packages = ["src.strategies", "src.backtest", "src.data_handler"]
