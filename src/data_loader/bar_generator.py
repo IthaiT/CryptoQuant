@@ -154,8 +154,9 @@ class BarGenerator(ABC):
         symbol: str,
         start_date: str,
         end_date: Optional[str] = None,
+        period: Optional[str] = None,
         show_progress: bool = True,
-    ) -> pd.DataFrame:
+    ):
         """
         Generate bars using this generator's rules (cross-day support).
         
@@ -166,16 +167,33 @@ class BarGenerator(ABC):
             symbol: Trading symbol (e.g., 'BTCUSDT')
             start_date: Start date in 'YYYY-MM-DD' format
             end_date: Optional end date in 'YYYY-MM-DD' format
+            period: Optional period grouping ('day', 'month', 'year', or None for all)
             show_progress: Whether to show progress bars
         
         Returns:
-            DataFrame with generated bars
+            If period is None: DataFrame with all bars
+            If period is specified: Generator yielding (period_key, DataFrame) tuples
         """
         dates = self._get_date_range(symbol, start_date, end_date)
         if not dates:
             self.logger.warning(f"⊘ {symbol} 无可用数据 (从 {start_date} 开始)")
-            return pd.DataFrame()
+            if period is None:
+                return pd.DataFrame()
+            else:
+                return
         
+        # If no period specified, use original behavior
+        if period is None:
+            return self._generate_all(symbol, dates, show_progress)
+        
+        # Period-based generation
+        if period not in ('day', 'month', 'year'):
+            raise ValueError(f"Invalid period: {period}. Must be 'day', 'month', 'year', or None")
+        
+        return self._generate_by_period(symbol, dates, period, show_progress)
+    
+    def _generate_all(self, symbol: str, dates: List[str], show_progress: bool) -> pd.DataFrame:
+        """Generate all bars and return as single DataFrame (original behavior)."""
         self.bars = []  # Reset bars list
         current_bar = None
         
@@ -219,6 +237,74 @@ class BarGenerator(ABC):
         print(f"✅ 生成完成: {len(result_df)} 个 Bars\n")
         
         return result_df
+    
+    def _generate_by_period(self, symbol: str, dates: List[str], period: str, show_progress: bool):
+        """
+        Generate bars grouped by period, yielding (period_key, DataFrame) for each period.
+        
+        Yields:
+            Tuple of (period_key: str, bars_df: pd.DataFrame)
+        """
+        from collections import defaultdict
+        
+        # Group dates by period
+        period_groups = defaultdict(list)
+        for date in dates:
+            if period == 'day':
+                key = date  # YYYY-MM-DD
+            elif period == 'month':
+                key = date[:7]  # YYYY-MM
+            else:  # year
+                key = date[:4]  # YYYY
+            period_groups[key].append(date)
+        
+        # Sort period keys
+        sorted_periods = sorted(period_groups.keys())
+        
+        # Print header
+        print(f"\n📊 生成 Bars by {period}: {symbol}")
+        print(f"   Total periods: {len(sorted_periods)}")
+        
+        period_iter = tqdm(
+            sorted_periods,
+            desc=f"{period.capitalize()} 处理进度",
+            unit=period,
+            disable=not show_progress,
+            bar_format="{desc} |{bar}| {n_fmt}/{total_fmt} [{elapsed}<{remaining}]",
+            colour="cyan"
+        )
+        
+        for period_key in period_iter:
+            self.bars = []  # Reset for each period
+            current_bar = None
+            period_dates = period_groups[period_key]
+            
+            for date in period_dates:
+                try:
+                    df = self._load_raw_data(symbol, date)
+                except FileNotFoundError:
+                    continue
+                
+                timestamps = df['timestamp'].values
+                prices = df['price'].astype(float).values
+                amounts = df['amount'].astype(float).values
+                
+                for ts, price, amount in zip(timestamps, prices, amounts):
+                    if current_bar is None:
+                        current_bar = self.init_bar(ts, price, amount)
+                    else:
+                        self.update_bar(current_bar, ts, price, amount)
+                    
+                    if self.should_close(current_bar):
+                        current_bar['close_time'] = ts
+                        self.bars.append(current_bar)
+                        current_bar = None
+            
+            # Yield period result if bars exist
+            if self.bars:
+                yield period_key, pd.DataFrame(self.bars)
+        
+        print(f"✅ 生成完成\n")
 
 
 class DollarBar(BarGenerator):
