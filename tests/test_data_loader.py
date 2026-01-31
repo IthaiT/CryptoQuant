@@ -21,11 +21,11 @@ SKIP_DOWNLOAD = False  # Set to True to skip download, test bar generation only
 DEFAULT_SYMBOL = "BTCUSDT"
 DEFAULT_START_DATE = "2026-01-20"
 DEFAULT_END_DATE = "2026-01-26"
-BAR_OUTPUT_DIR = project_root / "data" / "bar_data"
+BAR_OUTPUT_DIR = project_root / "data" / "tmp_data"
 
 
 def save_bars(df, filename: str):
-    """Save generated bars to data/bar_data for later analysis."""
+    """Save generated bars to data/tmp_data for later analysis."""
     if df is None or df.empty:
         print(f"⚠️ No bars to save for {filename}")
         return

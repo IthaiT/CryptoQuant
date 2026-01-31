@@ -18,8 +18,8 @@ def main():
     
     # Configuration
     symbol = "BTCUSDT"
-    start_date = "2025-01-01"
-    end_date = "2025-12-31"
+    start_date = "2023-01-01"
+    end_date = "2023-12-31"
     dollar_threshold = 10_000_000.0  # $10M per bar
     
     # Output directory
@@ -27,7 +27,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     
     print("=" * 70)
-    print("Dollar Bar Generation - 2025 Data")
+    print("Dollar Bar Generation - 2023 Data")
     print("=" * 70)
     print(f"Symbol: {symbol}")
     print(f"Period: {start_date} to {end_date}")
@@ -53,7 +53,7 @@ def main():
             return
         
         # Save to CSV
-        output_file = output_dir / f"{symbol}_{(int)(dollar_threshold/1_000_000)}m_dollar_bars_2025.csv"
+        output_file = output_dir / f"{symbol}_{(int)(dollar_threshold/1_000_000)}m_dollar_bars_2023.csv"
         df_bars.to_csv(output_file, index=False)
         
         print(f"\n✅ Successfully saved {len(df_bars)} bars to:")
