@@ -165,7 +165,7 @@ class BarGenerator:
             
             for ts, price, amount in zip(timestamps, prices, amounts):
                 if current_bar is None:
-                    current_bar = bar_rule.init_bar(ts, price, amount)
+                    current_bar = bar_rule.init_bar(ts, price, amount, self.bars)
                 else:
                     bar_rule.update_bar(current_bar, ts, price, amount)
                 
