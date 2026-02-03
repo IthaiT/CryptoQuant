@@ -39,35 +39,52 @@ class DollarBarRule(BarRule):
         self.cumulative = 0.0
         '''
         我希望我生成bar的频率是5-10min/根，对应一天就是144-288根bar，取中间216
-        self.update_interval = 54 = 216/4，也就是期望6个小时更新一次threshold
-        self.k = 14，期望回看的窗口是4.5day
+        self.update_interval = 36 = 216/6，也就是期望4个小时更新一次threshold
+        self.k = 14，期望回看的窗口是2day8h
         '''
-        self.ema_threshold = threshold  # Current EMA-smoothed threshold
         self.k = 14  # EMA smoothing parameter
         self.alpha = 2 / (self.k + 1)  # EMA smoothing factor (2/(k+1))
-        self.update_interval = 54  # Update threshold every 54 bars
+        self.update_interval = 36  # Update threshold every 36 bars
+        self.last_threshold_update_ts: int | None = None
         
-    def _get_dynamic_threshold(self, previous_bars: List[Dict[str, Any]]) -> float:
-        # Get the last 54 bars for calculation
-        recent_bars = previous_bars[-self.update_interval:]
-        
-        # Step 1: Calculate average dollar volume over last 54 bars
-        # This represents the current market activity level
-        total_dollar_volume = sum(bar['dollar_volume'] for bar in recent_bars)
+    def _update_threshold(self, window_start: int, previous_bars: List[Dict[str, Any]]):
+        """
+        Compute dynamic threshold based on last 4 hours' dollar volume.
+        """
+
+        # 从最近的 bar 向前回溯，收集 4 小时窗口内的 bar
+        window_bars: List[Dict[str, Any]] = []
+        for bar in reversed(previous_bars):
+            ts_bar = bar.get('timestamp')
+            if ts_bar >= window_start:
+                window_bars.append(bar)
+            else:
+                # previous_bars 按时间顺序，遇到第一个超出窗口的即可终止
+                break
+
+        total_dollar_volume = sum(bar['dollar_volume'] for bar in window_bars)
+
         recent_threshold = total_dollar_volume / self.update_interval
-        
-        # Step 2: Apply EMA smoothing to smooth out volatility
-        # EMA formula: EMA_new = (recent_value × α) + (EMA_old × (1 - α))
-        # where α = 2/(k+1), k=14 in this case
-        self.ema_threshold = (recent_threshold * self.alpha) + (self.ema_threshold * (1 - self.alpha))
-        
-        return self.ema_threshold
-    
+
+        # EMA_new = recent_value * α + EMA_old * (1 - α)
+        self.threshold = (recent_threshold * self.alpha) + (self.threshold * (1 - self.alpha))
+
     def init_bar(self, ts: int, price: float, amount: float, previous_bars: List[Dict[str, Any]]) -> Dict[str, Any]:
         value = price * amount
         self.cumulative = value
-        if(len(previous_bars) % self.update_interval == 0):
-            self.threshold = self._get_dynamic_threshold(previous_bars)
+        
+        if self.last_threshold_update_ts is None:
+            self.last_threshold_update_ts = ts
+
+        if ts > 1e14:
+            four_hours = 4 * 60 * 60 * 1_000_000
+        elif ts > 1e11:
+            four_hours = 4 * 60 * 60 * 1_000
+
+        if ts - self.last_threshold_update_ts >= four_hours:
+            self._update_threshold(ts - four_hours, previous_bars)
+            self.last_threshold_update_ts = ts
+            
         return {
             'timestamp': ts,
             'open': price,
