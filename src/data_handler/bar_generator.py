@@ -133,7 +133,7 @@ class BarGenerator:
         current_bar = None
         
         date_range = f"{dates[0]} to {dates[-1]}" if len(dates) > 1 else dates[0]
-        logger.info(f"\n📊 Generating Bars: {symbol} | {date_range}")
+        logger.info(f"📊 Generating Bars: {symbol} | {date_range}")
         
         date_iter = tqdm(
             dates,
@@ -167,7 +167,7 @@ class BarGenerator:
                     current_bar = None
         
         result_df = pd.DataFrame(self.bars)
-        logger.info(f"✅ Complete: {len(result_df)} bars\n")
+        logger.info(f"✅ Complete: {len(result_df)} bars")
         
         return result_df
     
@@ -194,7 +194,7 @@ class BarGenerator:
         
         sorted_periods = sorted(period_groups.keys())
         
-        logger.info(f"\n📊 Generating Bars by {period}: {symbol}")
+        logger.info(f"📊 Generating Bars by {period}: {symbol}")
         logger.info(f"   Total periods: {len(sorted_periods)}")
         
         period_iter = tqdm(
@@ -236,6 +236,6 @@ class BarGenerator:
             if self.bars:
                 yield period_key, pd.DataFrame(self.bars)
         
-        logger.info("✅ Complete\n")
+        logger.info("✅ Complete")
 
 
