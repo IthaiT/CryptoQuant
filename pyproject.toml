@@ -21,6 +21,7 @@ dependencies = [
   "zstandard>=0.22.0",
   "requests>=2.31.0",
   "scipy>=1.15.3",
+  "loguru>=0.7.0",
 ]
 
 [tool.setuptools]

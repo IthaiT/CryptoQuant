@@ -14,6 +14,7 @@ import numpy as np
 import seaborn as sns
 from datetime import datetime
 import os
+from loguru import logger
 
 
 class BacktestVisualizer:
@@ -153,7 +154,7 @@ class BacktestVisualizer:
         # 保存
         output_path = os.path.join(output_dir, f'{self.strategy_name}_report.png')
         plt.savefig(output_path, dpi=150, bbox_inches='tight')
-        print(f"📊 Report saved: {output_path}")
+        logger.info(f"📊 Report saved: {output_path}")
         
         if show:
             plt.show()
@@ -350,4 +351,4 @@ class BacktestVisualizer:
             
             f.write("=" * 60 + "\n")
         
-        print(f"📝 Text report saved: {report_path}")
+        logger.info(f"📝 Text report saved: {report_path}")
