@@ -3,7 +3,7 @@ Backtrader 策略适配器 - 将现有策略桥接到 Backtrader
 """
 import backtrader as bt
 from .realtime_chart import RealtimeChartPlotter
-from loguru import logger
+from src.utils.logger import logger
 
 
 class RSIBacktraderStrategy(bt.Strategy):

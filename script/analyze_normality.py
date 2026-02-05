@@ -6,7 +6,6 @@ Usage:
     python analyze_normality.py --file "data/preprocess_data/BTCUSDT_dollar_bars_2025.csv"
     python analyze_normality.py --file "data/BTCUSDT_klines_5m_2025-01-01_2025-12-31.csv"
 """
-import sys
 from pathlib import Path
 import argparse
 import numpy as np
@@ -26,7 +25,6 @@ matplotlib.rcParams['axes.unicode_minus'] = False
 matplotlib.rcParams['figure.facecolor'] = 'white'
 
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
 
 def load_data(file_path: Path) -> tuple[pd.DataFrame, str]:

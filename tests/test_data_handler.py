@@ -5,13 +5,10 @@ Tests RawDataDownloader and BarGenerator with streaming decompression and cross-
 import sys
 from pathlib import Path
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
-
 from src.data_handler.raw_data_downloader import RawDataDownloader
 from src.data_handler.bar_generator import DollarBar, VolumeBar, TickBar
 
+project_root = Path(__file__).parent.parent
 # ============================================================
 # Configuration
 # ============================================================
