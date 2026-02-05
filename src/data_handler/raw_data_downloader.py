@@ -14,7 +14,7 @@ import zipfile
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
-from loguru import logger
+from src.utils.logger import logger
 
 
 class RawDataDownloader:

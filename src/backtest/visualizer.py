@@ -14,7 +14,7 @@ import numpy as np
 import seaborn as sns
 from datetime import datetime
 import os
-from loguru import logger
+from src.utils.logger import logger
 
 
 class BacktestVisualizer:

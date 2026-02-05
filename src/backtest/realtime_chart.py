@@ -16,7 +16,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from loguru import logger
+from src.utils.logger import logger
 
 
 class InteractiveRealtimeChartPlotter:

@@ -25,4 +25,8 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["src.strategies", "src.backtest", "src.data_handler"]
+package-dir = {"" = "src"}
+packages = ["strategies", "backtest", "data_handler", "utils"]
+
+[tool.setuptools.package-data]
+"" = ["py.typed"]

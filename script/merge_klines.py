@@ -13,7 +13,6 @@ from tqdm import tqdm
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
 
 
 def load_kline_file(file_path: Path) -> pd.DataFrame:

@@ -8,7 +8,7 @@ from .analyzers import TradingAnalyzer, CryptoCommissionScheme
 from .visualizer import BacktestVisualizer
 from .realtime_chart import RealtimeChartPlotter
 import os
-from loguru import logger
+from src.utils.logger import logger
 
 
 class BacktestEngine:

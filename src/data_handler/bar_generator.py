@@ -9,8 +9,7 @@ from typing import Optional, Dict, Any, List
 from datetime import datetime, timedelta
 import zstandard as zstd
 from tqdm import tqdm
-from abc import ABC, abstractmethod
-from loguru import logger
+from src.utils.logger import logger
 from src.data_handler.bar_rule import BarRule
 
 
@@ -237,5 +236,3 @@ class BarGenerator:
                 yield period_key, pd.DataFrame(self.bars)
         
         logger.info("✅ Complete")
-
-
