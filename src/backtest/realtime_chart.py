@@ -7,7 +7,6 @@ import webbrowser
 import threading
 import time
 import socket
-import logging
 from collections import deque
 from datetime import datetime
 from typing import List, Dict
@@ -17,10 +16,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-
-# Suppress uvicorn logs
-logging.getLogger("uvicorn").setLevel(logging.ERROR)
-logging.getLogger("uvicorn.access").setLevel(logging.ERROR)
+from src.utils.logger import logger
 
 
 class InteractiveRealtimeChartPlotter:
@@ -112,7 +108,7 @@ class InteractiveRealtimeChartPlotter:
             self._server_thread.start()
             # Wait for server to start (check port availability)
             self._wait_for_server(max_retries=30)
-            print('Web server is running at http://127.0.0.1:{}'.format(self.port))
+            logger.info('Web server is running at http://127.0.0.1:{}'.format(self.port))
             # Open browser
             time.sleep(0.5)  # Give server a bit more time to fully initialize
             webbrowser.open(f"http://127.0.0.1:{self.port}")
@@ -126,7 +122,7 @@ class InteractiveRealtimeChartPlotter:
                 return True
             except (socket.timeout, ConnectionRefusedError, OSError):
                 time.sleep(0.2)
-        print('Warning: Web server may not have started properly')
+        logger.warning('Warning: Web server may not have started properly')
         return False
 
     def _mount_routes(self):
@@ -151,7 +147,7 @@ class InteractiveRealtimeChartPlotter:
                 access_log=False
             )
         except Exception as e:
-            print('Server error: {}'.format(e))
+            logger.error('Server error: {}'.format(e))
 
     def _html_page(self) -> str:
         return """

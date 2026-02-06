@@ -3,6 +3,7 @@ Backtrader 策略适配器 - 将现有策略桥接到 Backtrader
 """
 import backtrader as bt
 from .realtime_chart import RealtimeChartPlotter
+from src.utils.logger import logger
 
 
 class RSIBacktraderStrategy(bt.Strategy):
@@ -33,7 +34,7 @@ class RSIBacktraderStrategy(bt.Strategy):
         """日志输出"""
         if self.params.printlog:
             dt = dt or self.datas[0].datetime.date(0)
-            print(f'{dt.isoformat()} {txt}')
+            logger.info(f'{dt.isoformat()} {txt}')
 
     def notify_order(self, order):
         """订单状态通知"""
@@ -149,7 +150,7 @@ class MABacktraderStrategy(bt.Strategy):
     def log(self, txt, dt=None):
         if self.params.printlog:
             dt = dt or self.datas[0].datetime.date(0)
-            print(f'{dt.isoformat()} {txt}')
+            logger.info(f'{dt.isoformat()} {txt}')
 
     def notify_order(self, order):
         if order.status in [order.Submitted, order.Accepted]:

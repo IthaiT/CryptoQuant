@@ -2,14 +2,11 @@
 BTC/USDT RSI 策略回测示例
 使用 Backtrader 框架
 """
-import os
-import sys
 from pathlib import Path
 
 # 添加项目路径（项目根目录：CryptoQuant）
 current_file = Path(__file__).resolve()
 project_root = current_file.parent.parent  # script/ 的上一级就是项目根目录
-sys.path.insert(0, str(project_root))
 
 # 设置 matplotlib 后端以支持实时图表
 import matplotlib

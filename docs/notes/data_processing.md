@@ -131,10 +131,10 @@ c. **分层阈值法（Regime-Based）**
 
 ## 2. TODO
 ### 2.1 整个流程
-#### 2.1.1 Raw Data
+#### 2.1.1 Download Raw Data
 获取原始data
 
-#### 2.1.2 Sampling 
+#### 2.1.2 Generate Bar 
 采样，对trade使用动态阈值，生成dollar bar
 1. **使用动态阈值**
 ```
@@ -175,7 +175,7 @@ b. 输入序列的物理意义需要平稳
 还需要做进一步的分析，比如我的策略频率希望是5-10分钟，那么一天生成的bar数量我希望是在144-288之间，我应该设置一个上下限，然后看看在这个区间内有多少天，在这个区间外有多少天，算算比例
 
 
-#### 2.1.3 Feature Engineering
+#### 2.1.3 ADF检验，生成新序列
 使用分数阶差分处理dollar bar的close price or others，使其平稳化, 使用ADF检验，同时在这个步骤搞一些其他因子
 
 #### 2.1.4 Event Filter 
@@ -187,6 +187,8 @@ b. 输入序列的物理意义需要平稳
 #### 2.1.6 Weighting
 去重，计算样本重叠度，生成 Sample Weights。
 
-#### 2.1.7 Training:
-喂给模型（XGBoost/LSTM/Transformer）。
+#### 2.1.7 计算常用指标/因子/增加数据
+
+#### 2.1.8 Training
+Purged K-Fold 验证你的因子是否对标签有预测能力。
 

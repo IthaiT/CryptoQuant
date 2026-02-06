@@ -8,6 +8,7 @@ from .analyzers import TradingAnalyzer, CryptoCommissionScheme
 from .visualizer import BacktestVisualizer
 from .realtime_chart import RealtimeChartPlotter
 import os
+from src.utils.logger import logger
 
 
 class BacktestEngine:
@@ -95,16 +96,16 @@ class BacktestEngine:
             # 设置 max_bars 为数据行数加上 10% 的缓冲
             max_bars = int(data_count * 1.1)
             self.plotter.set_max_bars(max_bars)
-            print(f'数据行数: {data_count}, 设置图表最大显示: {max_bars}')
+            logger.info(f'数据行数: {data_count}, 设置图表最大显示: {max_bars}')
         
     def run(self):
         """运行回测"""
         if not self.cerebro:
             raise RuntimeError("请先调用 setup() 方法")
         
-        print('=' * 60)
-        print(f'初始资金: {self.initial_cash:.2f} USDT')
-        print('=' * 60)
+        logger.info('=' * 60)
+        logger.info(f'初始资金: {self.initial_cash:.2f} USDT')
+        logger.info('=' * 60)
         
         if self.plotter:
             # 启动TradingView风格的本地Web图表
@@ -112,9 +113,9 @@ class BacktestEngine:
                 self.plotter.start_live(interval_sec=0.5)
                 import time
                 time.sleep(1)  # Give server time to fully initialize before backtest starts
-                print('Web server is running at http://127.0.0.1:8765')
+                logger.info('Web server is running at http://127.0.0.1:8765')
             except Exception as e:
-                print(f'Warning: Chart startup error: {e}')
+                logger.warning(f'Warning: Chart startup error: {e}')
         # 运行回测（Web图表在后台线程中运行，无需阻塞）
         self.results = self.cerebro.run()
         
@@ -125,10 +126,10 @@ class BacktestEngine:
         
         # 获取最终资金
         final_value = self.cerebro.broker.getvalue()
-        print('=' * 60)
-        print(f'期末资金: {final_value:.2f} USDT')
-        print(f'收益: {final_value - self.initial_cash:.2f} USDT ({(final_value/self.initial_cash - 1)*100:.2f}%)')
-        print('=' * 60)
+        logger.info('=' * 60)
+        logger.info(f'期末资金: {final_value:.2f} USDT')
+        logger.info(f'收益: {final_value - self.initial_cash:.2f} USDT ({(final_value/self.initial_cash - 1)*100:.2f}%)')
+        logger.info('=' * 60)
         
         # Web图表无需保存图片；如需导出请手动截图或后续扩展
 
@@ -183,16 +184,16 @@ class BacktestEngine:
         # 添加分析器
         self.cerebro.addanalyzer(bt.analyzers.SharpeRatio, _name='sharpe')
         
-        print('开始参数优化...')
+        logger.info('开始参数优化...')
         opt_results = self.cerebro.run()
         
         # 输出优化结果
-        print('\n优化结果:')
+        logger.info('\n优化结果:')
         for result in opt_results:
             strategy = result[0]
             params = strategy.params._getkwargs()
             sharpe = strategy.analyzers.sharpe.get_analysis()
-            print(f'参数: {params}, 夏普比率: {sharpe}')
+            logger.info(f'参数: {params}, 夏普比率: {sharpe}')
         
         return opt_results
 

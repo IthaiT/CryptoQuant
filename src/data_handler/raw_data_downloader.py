@@ -6,7 +6,6 @@ Supports streaming Zstandard compression for memory efficiency.
 import pandas as pd
 from pathlib import Path
 from typing import Optional, List
-import logging
 from datetime import datetime, timedelta
 import zstandard as zstd
 import requests
@@ -15,6 +14,7 @@ import zipfile
 from tqdm import tqdm
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import threading
+from src.utils.logger import logger
 
 
 class RawDataDownloader:
@@ -72,7 +72,6 @@ class RawDataDownloader:
         self.interval = interval
         self.max_workers = max_workers
         self.base_dir = base_dir or self._get_default_base_dir()
-        self.logger = self._setup_logger()
         if self.data_type == 'klines':
             self.bar_header = self.KLINES_HEADER
         else:
@@ -82,21 +81,6 @@ class RawDataDownloader:
         """Get default base directory: project_root/data/raw_data"""
         project_root = Path(__file__).parent.parent.parent
         return project_root / "data" / "raw_data"
-    
-    def _setup_logger(self) -> logging.Logger:
-        """Setup logging with clean format"""
-        # Remove existing handlers
-        logger = logging.getLogger(__name__)
-        logger.handlers.clear()
-        
-        # Create new handler with clean format
-        handler = logging.StreamHandler()
-        formatter = logging.Formatter("%(message)s")
-        handler.setFormatter(formatter)
-        logger.addHandler(handler)
-        logger.setLevel(logging.INFO)
-        
-        return logger
   
     def _process_daily_file(self, date_str: str,) -> bool:
         """
@@ -120,7 +104,7 @@ class RawDataDownloader:
             csv_filename = f"{self.symbol}-{self.interval}-{date_str}.csv"
             output_file = self.base_dir / subdir / f"{self.symbol}-{self.interval}-{date_str}.csv.zst"
         else:
-            self.logger.error(f"Unknown data_type: {self.data_type}")
+            logger.error(f"Unknown data_type: {self.data_type}")
             return False
         
         # Create directory structure
@@ -153,13 +137,13 @@ class RawDataDownloader:
                 return False
             
             if response.status_code != 200:
-                self.logger.warning(f"⚠️  {date_str}: HTTP {response.status_code}")
+                logger.warning(f"⚠️  {date_str}: HTTP {response.status_code}")
                 return False
             
             # 4. Extract and read CSV from ZIP
             with zipfile.ZipFile(BytesIO(response.content)) as zf:
                 if csv_filename not in zf.namelist():
-                    self.logger.warning(f"⚠️  {date_str}: CSV 文件未找到")
+                    logger.warning(f"⚠️  {date_str}: CSV 文件未找到")
                     return False
                 
                 with zf.open(csv_filename) as f:
@@ -167,7 +151,7 @@ class RawDataDownloader:
                     df = pd.read_csv(f, header=None, names=self.bar_header)
 
             if df.empty:
-                self.logger.warning(f"⚠️  {date_str}: 空数据")
+                logger.warning(f"⚠️  {date_str}: 空数据")
                 return False
             
             # 6. Standardize columns (data type conversions)
@@ -180,7 +164,7 @@ class RawDataDownloader:
             return True
         
         except Exception as e:
-            self.logger.error(f"✗ {date_str}: {type(e).__name__}")
+            logger.error(f"✗ {date_str}: {type(e).__name__}")
             return False
     
     def _standardize_columns(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -272,10 +256,10 @@ class RawDataDownloader:
         if self.data_type == 'klines':
             data_desc += f" ({self.interval})"
         
-        # Print header
+        # Print header via logger
         date_range = f"{self.start_date} 至 {self.end_date}"
-        print(f"\n📥 下载数据: {data_desc} | {date_range}")
-        print("-" * 70)
+        logger.info(f"\n📥 下载数据: {data_desc} | {date_range}")
+        logger.info("-" * 70)
         
         # Generate all dates to process
         dates = []
@@ -316,18 +300,18 @@ class RawDataDownloader:
                                     success_count += 1
                         except Exception as e:
                             date_str = future_to_date[future]
-                            self.logger.error(f"✗ {date_str}: {type(e).__name__}")
+                            logger.error(f"✗ {date_str}: {type(e).__name__}")
                         finally:
                             pbar.update(1)
                 except KeyboardInterrupt:
-                    print("\n\n⚠️  检测到 Ctrl+C，正在停止下载...")
+                    logger.warning("\n\n⚠️  检测到 Ctrl+C，正在停止下载...")
                     # Cancel all pending futures
                     for future in future_to_date.keys():
                         future.cancel()
                     executor.shutdown(wait=False, cancel_futures=True)
-                    print("✅ 已停止下载")
+                    logger.info("✅ 已停止下载")
                     return
         
-        # Print summary
-        print("-" * 70)
-        print(f"✅ 完成: 成功下载 {success_count}/{total_days} 天的数据\n")
+        # Print summary via logger
+        logger.info("-" * 70)
+        logger.info(f"✅ 完成: 成功下载 {success_count}/{total_days} 天的数据\n")
