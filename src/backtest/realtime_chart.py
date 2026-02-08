@@ -206,6 +206,7 @@ class InteractiveRealtimeChartPlotter:
       let volumeChart = null;
       let volumeSeries = null;
       let lastDataCount = 0;
+      let cachedBars = [];
       let retryCount = 0;
       const maxRetries = 10;
 
@@ -326,18 +327,30 @@ class InteractiveRealtimeChartPlotter:
             lastDataCount = 0;
           } else {
             if (!playbackEnabled) {
-              // Batch mode: render everything at once
-              candleSeries.setData(bars);
-              const volData = bars.map(b => ({ time: b.time, value: b.volume, color: b.close >= b.open ? '#26a69a' : '#ef5350' }));
-              volumeSeries.setData(volData);
+              // Batch mode: 使用增量更新避免闪烁
+              if (lastDataCount === 0) {
+                // 首次加载：全量设置
+                candleSeries.setData(bars);
+                const volData = bars.map(b => ({ time: b.time, value: b.volume, color: b.close >= b.open ? '#26a69a' : '#ef5350' }));
+                volumeSeries.setData(volData);
+                chart.timeScale().fitContent();
+                volumeChart.timeScale().fitContent();
+                cachedBars = bars;
+              } else if (bars.length > lastDataCount) {
+                // 增量更新：只添加新的 bars
+                for (let i = lastDataCount; i < bars.length; i++) {
+                  const bar = bars[i];
+                  candleSeries.update(bar);
+                  const volBar = { time: bar.time, value: bar.volume, color: bar.close >= bar.open ? '#26a69a' : '#ef5350' };
+                  volumeSeries.update(volBar);
+                }
+                cachedBars = bars;
+              }
+              // 更新交易信号（仅当有变化时）
               if (payload.markers && payload.markers.length > 0) {
                 candleSeries.setMarkers(payload.markers);
               }
-              if (lastDataCount !== bars.length) {
-                chart.timeScale().fitContent();
-                volumeChart.timeScale().fitContent();
-                lastDataCount = bars.length;
-              }
+              lastDataCount = bars.length;
             } else {
               // Playback mode: keep full arrays and let render loop add bars
               fullBars = bars;
