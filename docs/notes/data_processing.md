@@ -129,7 +129,7 @@ c. **分层阈值法（Regime-Based）**
 ### 1.4 异方差性
 随机变量的“波动幅度”不是恒定的，而是随着时间或另一个变量的变化而变化的。
 
-## 2. TODO
+## 2. Process
 ### 2.1 整个流程
 #### 2.1.1 Download Raw Data
 获取原始data
@@ -137,21 +137,7 @@ c. **分层阈值法（Regime-Based）**
 #### 2.1.2 Generate Bar 
 采样，对trade使用动态阈值，生成dollar bar
 1. **使用动态阈值**
-```
-原始Bar数量统计:
-  平均: 235.1 bars/day
-  中位数: 182.0 bars/day
-  标准差: 198.3
-  变异系数: 84.34%
-  范围: [12, 1744]
-
-动态阈值Bar数量统计:
-  平均: 206.1 bars/day
-  中位数: 190.7 bars/day
-  标准差: 97.7
-  变异系数: 47.43%
-  范围: [38.3, 1083.0]
-```
+使用动态阈值的主要目的是为了
 ![compare static & dynamic threshold](assets/data_processing/image.png)
 ![bar数量分布图](assets/data_processing/image-1.png)
 ![bar数量均值和方差](assets/data_processing/image-2.png)
@@ -176,7 +162,7 @@ b. 输入序列的物理意义需要平稳
 
 
 #### 2.1.3 ADF检验，生成新序列
-使用分数阶差分处理dollar bar的close price or others，使其平稳化, 使用ADF检验，同时在这个步骤搞一些其他因子
+使用分数阶差分处理dollar bar的close price or others，使其平稳化, 使用ADF检验
 
 #### 2.1.4 Event Filter 
 使用CUSUM决定对哪些bar打标签
