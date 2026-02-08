@@ -122,6 +122,9 @@ class BacktestEngine:
         # 等待前端获取最后的数据
         if self.plotter:
             import time
+            logger.info(f'📊 回测完成，图表数据: {self.plotter.bar_count} bars, '
+                       f'买入信号: {len(self.plotter.buy_signals)}, '
+                       f'卖出信号: {len(self.plotter.sell_signals)}')
             time.sleep(2)  # Give frontend time to fetch final bars and signals
         
         # 获取最终资金
