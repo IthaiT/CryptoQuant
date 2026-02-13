@@ -1,0 +1,1560 @@
+{
+    "root": {
+        "data": {
+            "id": "quant_framework",
+            "created": 1770971000000,
+            "text": "量化投资研究完整体系"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "core_cognition",
+                    "created": 1770971000001,
+                    "text": "一、核心认知：量化的本质"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "essence",
+                            "created": 1770971000002,
+                            "text": "量化本质：在噪声系统中寻找可重复的统计结构性偏差"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "three_pillars",
+                            "created": 1770971000003,
+                            "text": "三个核心支柱"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "pillar1",
+                                    "created": 1770971000004,
+                                    "text": "统计推断能力"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pillar2",
+                                    "created": 1770971000005,
+                                    "text": "市场微观结构理解"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pillar3",
+                                    "created": 1770971000006,
+                                    "text": "盈利来源归因：Risk Premium vs Behavioral vs Structural Edge"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "knowledge_grid",
+                    "created": 1770971000010,
+                    "text": "二、量化知识完整网格"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "module_a",
+                            "created": 1770971000011,
+                            "text": "A. 数学统计与可验证方法"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "a_keywords",
+                                    "created": 1770971000012,
+                                    "text": "核心关键词"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "a1",
+                                            "created": 1770971000013,
+                                            "text": "Statistical Inference / Hypothesis Testing"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a2",
+                                            "created": 1770971000014,
+                                            "text": "White's Reality Check / Deflated Sharpe"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a3",
+                                            "created": 1770971000015,
+                                            "text": "Bayesian Inference / Monte Carlo / Bootstrap"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a4",
+                                            "created": 1770971000016,
+                                            "text": "时间序列交叉验证 / 多重检验问题"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a5",
+                                            "created": 1770971000017,
+                                            "text": "Ergodicity vs Non-ergodicity / Regime Switching"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "a_books",
+                                    "created": 1770971000018,
+                                    "text": "必读书籍"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "a_b1",
+                                            "created": 1770971000019,
+                                            "text": "Statistical Inference - Casella & Berger"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a_b2",
+                                            "created": 1770971000020,
+                                            "text": "The Elements of Statistical Learning"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a_b3",
+                                            "created": 1770971000021,
+                                            "text": "Advances in Financial Machine Learning"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "a_papers",
+                                    "created": 1770971000022,
+                                    "text": "必读论文"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "a_p1",
+                                            "created": 1770971000023,
+                                            "text": "The Deflated Sharpe Ratio - Bailey & López de Prado"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a_p2",
+                                            "created": 1770971000024,
+                                            "text": "Reality Check for Data Snooping - White (2000)"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "a_p3",
+                                            "created": 1770971000025,
+                                            "text": "Backtesting - Harvey & Liu"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_b",
+                            "created": 1770971000030,
+                            "text": "B. 金融经济学与风险溢价"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "b_core",
+                                    "created": 1770971000031,
+                                    "text": "核心问题：盈利来自哪里？"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "b_q1",
+                                            "created": 1770971000032,
+                                            "text": "风险补偿？"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b_q2",
+                                            "created": 1770971000033,
+                                            "text": "结构性错配？"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b_q3",
+                                            "created": 1770971000034,
+                                            "text": "行为偏差？"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "b_keywords",
+                                    "created": 1770971000035,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "b1",
+                                            "created": 1770971000036,
+                                            "text": "Risk Premia / ICAPM"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b2",
+                                            "created": 1770971000037,
+                                            "text": "Intertemporal Hedging Demand"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b3",
+                                            "created": 1770971000038,
+                                            "text": "Limits to Arbitrage / 套利边界"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b4",
+                                            "created": 1770971000039,
+                                            "text": "Leverage Constraints / 杠杆约束"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b5",
+                                            "created": 1770971000040,
+                                            "text": "Liquidity Premium / 流动性溢价"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "b_classics",
+                                    "created": 1770971000041,
+                                    "text": "经典文献"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "b_c1",
+                                            "created": 1770971000042,
+                                            "text": "Efficient Market Hypothesis - Eugene Fama"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b_c2",
+                                            "created": 1770971000043,
+                                            "text": "Behavioral Anomalies - Robert Shiller"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "b_c3",
+                                            "created": 1770971000044,
+                                            "text": "Asset Pricing 经典理论"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_c",
+                            "created": 1770971000050,
+                            "text": "C. 市场微观结构（专业级必修）"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "c_intro",
+                                    "created": 1770971000051,
+                                    "text": "机构Alpha的核心来源"
+                                },
+                                "children": []
+                                },
+                            {
+                                "data": {
+                                    "id": "c_keywords",
+                                    "created": 1770971000052,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "c1",
+                                            "created": 1770971000053,
+                                            "text": "Order Flow Toxicity / 订单流毒性"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c2",
+                                            "created": 1770971000054,
+                                            "text": "Kyle Lambda / 价格冲击参数"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c3",
+                                            "created": 1770971000055,
+                                            "text": "Market Impact Models / 市场冲击模型"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c4",
+                                            "created": 1770971000056,
+                                            "text": "Limit Order Book Dynamics / 订单簿动态"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c5",
+                                            "created": 1770971000057,
+                                            "text": "Queue Position / 排队优先级"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c6",
+                                            "created": 1770971000058,
+                                            "text": "Latency Arbitrage / 延迟套利"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c7",
+                                            "created": 1770971000059,
+                                            "text": "Adverse Selection / 逆向选择"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "c_books",
+                                    "created": 1770971000060,
+                                    "text": "核心书籍"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "c_b1",
+                                            "created": 1770971000061,
+                                            "text": "Market Microstructure Theory"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c_b2",
+                                            "created": 1770971000062,
+                                            "text": "Algorithmic Trading and DMA"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "c_research",
+                                    "created": 1770971000063,
+                                    "text": "研究方向"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "c_r1",
+                                            "created": 1770971000064,
+                                            "text": "高频Alpha衰减机制"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c_r2",
+                                            "created": 1770971000065,
+                                            "text": "冲击成本的结构分解"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "c_r3",
+                                            "created": 1770971000066,
+                                            "text": "订单不平衡预测"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_d",
+                            "created": 1770971000070,
+                            "text": "D. 因子与资产定价结构"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "d_keywords",
+                                    "created": 1770971000071,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "d1",
+                                            "created": 1770971000072,
+                                            "text": "Cross-sectional factors / 截面因子"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d2",
+                                            "created": 1770971000073,
+                                            "text": "Factor zoo / 因子海洋"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d3",
+                                            "created": 1770971000074,
+                                            "text": "PCA / Eigenfactor"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d4",
+                                            "created": 1770971000075,
+                                            "text": "Shrinkage Estimation / 收缩估计"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d5",
+                                            "created": 1770971000076,
+                                            "text": "Risk Model Construction / 风险模型构建"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d6",
+                                            "created": 1770971000077,
+                                            "text": "Barra model / 巴拉模型"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "d_references",
+                                    "created": 1770971000078,
+                                    "text": "必读资源"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "d_r1",
+                                            "created": 1770971000079,
+                                            "text": "因子论文 - Cliff Asness"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d_r2",
+                                            "created": 1770971000080,
+                                            "text": "AQR Capital Management 研究报告"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "d_r3",
+                                            "created": 1770971000081,
+                                            "text": "Fama-French 5-factor model"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_e",
+                            "created": 1770971000090,
+                            "text": "E. 时间序列与信号工程"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "e_keywords",
+                                    "created": 1770971000091,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "e1",
+                                            "created": 1770971000092,
+                                            "text": "ARIMA / GARCH"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e2",
+                                            "created": 1770971000093,
+                                            "text": "State Space Model / 状态空间模型"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e3",
+                                            "created": 1770971000094,
+                                            "text": "Kalman Filter / 卡尔曼滤波"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e4",
+                                            "created": 1770971000095,
+                                            "text": "Hidden Markov Model"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e5",
+                                            "created": 1770971000096,
+                                            "text": "Cointegration / 协整"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e6",
+                                            "created": 1770971000097,
+                                            "text": "Spectral analysis / 谱分析"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "e7",
+                                            "created": 1770971000098,
+                                            "text": "Fractional Differencing"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "e_recommend",
+                                    "created": 1770971000099,
+                                    "text": "推荐资源"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "e_rec1",
+                                            "created": 1770971000100,
+                                            "text": "Time Series Analysis"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_f",
+                            "created": 1770971000110,
+                            "text": "F. 机器学习与泛化理论"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "f_core",
+                                    "created": 1770971000111,
+                                    "text": "核心原理：不是模型复杂度，而是控制过拟合+稳定性"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "f_keywords",
+                                    "created": 1770971000112,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "f1",
+                                            "created": 1770971000113,
+                                            "text": "Bias-Variance Tradeoff / 偏差-方差权衡"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f2",
+                                            "created": 1770971000114,
+                                            "text": "Purged K-Fold CV"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f3",
+                                            "created": 1770971000115,
+                                            "text": "Feature Importance Stability"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f4",
+                                            "created": 1770971000116,
+                                            "text": "Online Learning / 在线学习"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f5",
+                                            "created": 1770971000117,
+                                            "text": "Reinforcement Learning in trading"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f6",
+                                            "created": 1770971000118,
+                                            "text": "Meta-labeling"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "f_recommend",
+                                    "created": 1770971000119,
+                                    "text": "推荐资源"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "f_r1",
+                                            "created": 1770971000120,
+                                            "text": "Pattern Recognition and Machine Learning"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "f_r2",
+                                            "created": 1770971000121,
+                                            "text": "Deep Portfolio Theory"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_g",
+                            "created": 1770971000130,
+                            "text": "G. 回测科学与实验设计"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "g_warning",
+                                    "created": 1770971000131,
+                                    "text": "很多人死在回测上"
+                                },
+                                "children": []
+                                },
+                            {
+                                "data": {
+                                    "id": "g_keywords",
+                                    "created": 1770971000132,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "g1",
+                                            "created": 1770971000133,
+                                            "text": "Survivorship bias / 幸存者偏差"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g2",
+                                            "created": 1770971000134,
+                                            "text": "Look-ahead bias / 前视偏差"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g3",
+                                            "created": 1770971000135,
+                                            "text": "Slippage modeling / 滑点建模"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g4",
+                                            "created": 1770971000136,
+                                            "text": "Execution simulation / 执行模拟"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g5",
+                                            "created": 1770971000137,
+                                            "text": "Capacity constraints / 容量限制"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g6",
+                                            "created": 1770971000138,
+                                            "text": "Turnover decomposition / 换手率分解"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "g_recommend",
+                                    "created": 1770971000139,
+                                    "text": "强烈推荐"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "g_r1",
+                                            "created": 1770971000140,
+                                            "text": "López de Prado 的回测框架"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "g_r2",
+                                            "created": 1770971000141,
+                                            "text": "QuantConnect 开源引擎"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_h",
+                            "created": 1770971000150,
+                            "text": "H. 组合优化与风险管理"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "h_keywords",
+                                    "created": 1770971000151,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "h1",
+                                            "created": 1770971000152,
+                                            "text": "Mean-Variance / 均值方差"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h2",
+                                            "created": 1770971000153,
+                                            "text": "Black-Litterman Model"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h3",
+                                            "created": 1770971000154,
+                                            "text": "Risk Parity / 风险平价"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h4",
+                                            "created": 1770971000155,
+                                            "text": "Hierarchical Risk Parity"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h5",
+                                            "created": 1770971000156,
+                                            "text": "Kelly Criterion / Kelly 准则"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h6",
+                                            "created": 1770971000157,
+                                            "text": "Convex optimization / 凸优化"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "h_must_read",
+                                    "created": 1770971000158,
+                                    "text": "必读文献"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "h_m1",
+                                            "created": 1770971000159,
+                                            "text": "Harry Markowitz 论文"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "h_m2",
+                                            "created": 1770971000160,
+                                            "text": "Expected Returns"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_i",
+                            "created": 1770971000170,
+                            "text": "I. 交易执行与冲击模型"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "i_keywords",
+                                    "created": 1770971000171,
+                                    "text": "关键字"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "i1",
+                                            "created": 1770971000172,
+                                            "text": "Almgren-Chriss model"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "i2",
+                                            "created": 1770971000173,
+                                            "text": "Implementation Shortfall"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "i3",
+                                            "created": 1770971000174,
+                                            "text": "VWAP / POV"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "i4",
+                                            "created": 1770971000175,
+                                            "text": "Optimal execution / 最优执行"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "i5",
+                                            "created": 1770971000176,
+                                            "text": "Liquidity regimes / 流动性制度"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "module_j",
+                            "created": 1770971000180,
+                            "text": "J. Alpha 归因与容量分析（最重要）"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "j_framework",
+                                    "created": 1770971000181,
+                                    "text": "盈利链"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "j_f1",
+                                            "created": 1770971000182,
+                                            "text": "Signal → Prediction Power"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_f2",
+                                            "created": 1770971000183,
+                                            "text": "→ Capacity → Cost"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_f3",
+                                            "created": 1770971000184,
+                                            "text": "→ Risk Exposure → Structural Edge"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "j_decompose",
+                                    "created": 1770971000185,
+                                    "text": "盈利分解"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "j_d1",
+                                            "created": 1770971000186,
+                                            "text": "因子暴露收益"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_d2",
+                                            "created": 1770971000187,
+                                            "text": "纯Alpha收益"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_d3",
+                                            "created": 1770971000188,
+                                            "text": "杠杆收益"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_d4",
+                                            "created": 1770971000189,
+                                            "text": "交易效率收益"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "j_d5",
+                                            "created": 1770971000190,
+                                            "text": "市场环境收益"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "research_path",
+                    "created": 1770971000200,
+                    "text": "三、研究型探索路径"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "stage_1",
+                            "created": 1770971000201,
+                            "text": "第一阶段：构建科学实验思维（证伪自己的策略）"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "stage1_1",
+                                    "created": 1770971000202,
+                                    "text": "选择简单动量策略作为对象"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "stage1_2",
+                                    "created": 1770971000203,
+                                    "text": "执行 White Reality Check"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "stage1_3",
+                                    "created": 1770971000204,
+                                    "text": "执行 Monte Carlo 模拟"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "stage1_4",
+                                    "created": 1770971000205,
+                                    "text": "Walk-forward 测试"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "stage1_5",
+                                    "created": 1770971000206,
+                                    "text": "Regime 分割分析"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "stage_2",
+                            "created": 1770971000210,
+                            "text": "第二阶段：理解盈利来源"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "stage2_questions",
+                                    "created": 1770971000211,
+                                    "text": "研究问题"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "stage2_q1",
+                                            "created": 1770971000212,
+                                            "text": "动量为什么存在？"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage2_q2",
+                                            "created": 1770971000213,
+                                            "text": "在高流动性市场是否消失？"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage2_q3",
+                                            "created": 1770971000214,
+                                            "text": "与杠杆约束有关吗？"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage2_q4",
+                                            "created": 1770971000215,
+                                            "text": "与做空限制有关吗？"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "stage2_read",
+                                    "created": 1770971000216,
+                                    "text": "推荐阅读"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "stage2_r1",
+                                            "created": 1770971000217,
+                                            "text": "AQR 动量研究报告"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage2_r2",
+                                            "created": 1770971000218,
+                                            "text": "Limits to Arbitrage 相关文献"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "stage_3",
+                            "created": 1770971000220,
+                            "text": "第三阶段：结构化 Alpha 研究"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "stage3_pipeline",
+                                    "created": 1770971000221,
+                                    "text": "完整研究管线"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "stage3_p1",
+                                            "created": 1770971000222,
+                                            "text": "Idea 构想"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p2",
+                                            "created": 1770971000223,
+                                            "text": "数据工程"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p3",
+                                            "created": 1770971000224,
+                                            "text": "特征工程"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p4",
+                                            "created": 1770971000225,
+                                            "text": "标签生成"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p5",
+                                            "created": 1770971000226,
+                                            "text": "模型验证"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p6",
+                                            "created": 1770971000227,
+                                            "text": "稳定性分析"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p7",
+                                            "created": 1770971000228,
+                                            "text": "容量分析"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p8",
+                                            "created": 1770971000229,
+                                            "text": "风险归因"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p9",
+                                            "created": 1770971000230,
+                                            "text": "交易执行模型"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "stage3_p10",
+                                            "created": 1770971000231,
+                                            "text": "实盘漂移监控"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "top_resources",
+                    "created": 1770971000240,
+                    "text": "四、顶级研究资源"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "top_companies",
+                            "created": 1770971000241,
+                            "text": "顶级量化公司研究"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "top_c1",
+                                    "created": 1770971000242,
+                                    "text": "AQR Capital Management"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "top_c2",
+                                    "created": 1770971000243,
+                                    "text": "Two Sigma"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "top_c3",
+                                    "created": 1770971000244,
+                                    "text": "Renaissance Technologies"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "github_resources",
+                            "created": 1770971000245,
+                            "text": "GitHub 开源资源"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "github_1",
+                                    "created": 1770971000246,
+                                    "text": "QuantResearch"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "github_2",
+                                    "created": 1770971000247,
+                                    "text": "mlfinlab (López de Prado)"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "github_3",
+                                    "created": 1770971000248,
+                                    "text": "Qlib (Microsoft)"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "mindset_shift",
+                    "created": 1770971000250,
+                    "text": "五、真正的盈利思维转变"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "wrong_mindset",
+                            "created": 1770971000251,
+                            "text": "普通人的问题"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "wrong_q",
+                                    "created": 1770971000252,
+                                    "text": "策略收益多少？"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "professional_mindset",
+                            "created": 1770971000253,
+                            "text": "专业研究员的问题"
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "pro_q1",
+                                    "created": 1770971000254,
+                                    "text": "收益来自什么结构？"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pro_q2",
+                                    "created": 1770971000255,
+                                    "text": "这个结构是否稳定？"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pro_q3",
+                                    "created": 1770971000256,
+                                    "text": "是否可复制？"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pro_q4",
+                                    "created": 1770971000257,
+                                    "text": "是否容量有限？"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "pro_q5",
+                                    "created": 1770971000258,
+                                    "text": "是否会被资金流入压缩？"
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "research_philosophy",
+                    "created": 1770971000260,
+                    "text": "六、研究哲学与原则"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "principle_1",
+                            "created": 1770971000261,
+                            "text": "不做单策略思维"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "principle_2",
+                            "created": 1770971000262,
+                            "text": "不相信单次回测"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "principle_3",
+                            "created": 1770971000263,
+                            "text": "研究收益分解与拆解"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "principle_4",
+                            "created": 1770971000264,
+                            "text": "研究策略衰减机制"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "principle_5",
+                            "created": 1770971000265,
+                            "text": "研究市场结构与环境变化"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "future_exploration",
+                    "created": 1770971000270,
+                    "text": "七、未来重点探索方向"
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "future_1",
+                            "created": 1770971000271,
+                            "text": "市场非平稳性建模"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "future_2",
+                            "created": 1770971000272,
+                            "text": "交易拥挤度建模"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "future_3",
+                            "created": 1770971000273,
+                            "text": "因子衰减建模与预测"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "future_4",
+                            "created": 1770971000274,
+                            "text": "市场生态结构分析"
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}
