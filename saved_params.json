@@ -21,10 +21,10 @@
   "w_survival_wage": 12000,
   "w_recovery_monthly_prob_pct": 10.0,
   "w_reemploy_haircut_pct": 40,
-  "w_monthly_expense": 12000,
+  "w_monthly_expense": 14000,
   "w_annual_inflation_pct": 2.0,
   "w_lifestyle_creep": 0.1,
-  "w_expense_cap": 20000,
+  "w_expense_cap": 22000,
   "w_survival_expense_ratio": 0.8,
   "w_senior_age": 55,
   "w_senior_decay_pct": 5.0,
@@ -52,7 +52,7 @@
   "w_house_down": 1200000,
   "w_mortgage_monthly": 10000,
   "w_rent_in_expenses": 5000,
-  "w_black_swan_prob_pct": 20.0,
-  "w_black_swan_cost_min": 20000,
-  "w_black_swan_cost_max": 250000
+  "w_black_swan_prob_pct": 10.0,
+  "w_black_swan_cost_min": 5000,
+  "w_black_swan_cost_max": 100000
 }
