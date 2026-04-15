@@ -4,17 +4,19 @@ Formula: n = ln(C(2+i) / (Bi + C(1+i))) / ln(1+i)
 n: periods (months), B: principal, C: monthly investment, i: monthly rate
 """
 
-import numpy as np
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
+import numpy as np
 from matplotlib.lines import Line2D
-import os
 
 plt.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'STSong']
 plt.rcParams['axes.unicode_minus'] = False
 
-OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "reports", "investment_formula")
-os.makedirs(OUTPUT_DIR, exist_ok=True)
+PLANNER_ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_DIR = PLANNER_ROOT / "reports" / "investment_formula"
+OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # -- Core calculations ---------------------------------------------
@@ -60,7 +62,7 @@ def _auto_ylim(ax, data_list, pct=95, cap=80):
 
 def _save(fig, name):
     fig.tight_layout()
-    path = os.path.join(OUTPUT_DIR, name)
+    path = OUTPUT_DIR / name
     fig.savefig(path, dpi=150, bbox_inches='tight')
     plt.close(fig)
 

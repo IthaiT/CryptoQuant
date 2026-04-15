@@ -63,7 +63,6 @@
 
 ```bash
 pip install -e .
-streamlit run app.py
 streamlit run wealth_planner/app.py
 ```
 
