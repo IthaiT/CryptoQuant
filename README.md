@@ -2,14 +2,14 @@
 
 这个仓库现在不是一个单线项目，而是两条线并存：
 
-1. 当前主线：[`app.py`](./app.py) 是一个 Streamlit 蒙特卡洛个人财务规划器。
+1. 当前主线：[`wealth_planner/app.py`](./wealth_planner/app.py) 是一个 Streamlit 蒙特卡洛个人财务规划器。
 2. 历史副线：`src/`、`script/`、`notebooks/` 里保留了一套加密货币量化研究/回测工具链。
 
 仓库名还是 `CryptoQuant`，但它已经不能准确代表当前主入口。
 
 ## 先看什么
 
-- 想最快理解“现在这个项目在做什么”：看 [`app.py`](./app.py) 和 [`docs/tutorials/01-快速开始指南.md`](./docs/tutorials/01-快速开始指南.md)
+- 想最快理解“现在这个项目在做什么”：看 [`wealth_planner/app.py`](./wealth_planner/app.py) 和 [`docs/tutorials/01-快速开始指南.md`](./docs/tutorials/01-快速开始指南.md)
 - 想看早期量化研究代码：看 [`docs/tutorials/02-数据下载指南.md`](./docs/tutorials/02-数据下载指南.md) 和 [`docs/tutorials/03-回测框架手册.md`](./docs/tutorials/03-回测框架手册.md)
 - 想看 notebooks 在研究什么：看 [`docs/tutorials/04-策略开发教程.md`](./docs/tutorials/04-策略开发教程.md)
 - 想知道哪些文件已经脱节、哪些只是知识库：看 [`docs/tutorials/05-进阶功能.md`](./docs/tutorials/05-进阶功能.md)
@@ -18,7 +18,7 @@
 
 ### 1. Streamlit 财务规划器
 
-主入口是 [`app.py`](./app.py)。它做的是月度粒度的蒙特卡洛财务模拟，不是加密货币回测。
+主入口是 [`wealth_planner/app.py`](./wealth_planner/app.py)。它做的是月度粒度的蒙特卡洛财务模拟，不是加密货币回测。
 
 核心能力：
 
@@ -59,16 +59,40 @@
 
 ### 财务规划器
 
-`app.py` 的核心依赖已经写进 `pyproject.toml`；只有敏感性分析用到的 `scikit-image` 仍然放在可选依赖里。
+`wealth_planner/app.py` 的核心依赖已经写进 `pyproject.toml`；只有敏感性分析用到的 `scikit-image` 仍然放在可选依赖里。
 
 ```bash
 pip install -e .
 streamlit run app.py
+streamlit run wealth_planner/app.py
 ```
 
 可选依赖：
 
 - `scikit-image`：仅用于敏感性分析里的等值线提取；缺失时应用仍可运行
+
+### 当前测试
+
+当前仓库里保留下来的自动化测试，集中在 `src/data_handler/` 这条数据链：
+
+- `tests/test_bar_rule.py`
+- `tests/test_bar_generator.py`
+- `tests/test_raw_data_downloader.py`
+
+安装开发依赖后可直接运行：
+
+```bash
+pip install -e ".[dev]"
+pytest -q
+```
+
+这些测试当前覆盖的是：
+
+- `BarRule` 的阈值与累计逻辑
+- `BarGenerator` 的跨天聚合和按 period 输出
+- `RawDataDownloader` 的列标准化与 `.zst` 写入
+
+它们不覆盖 `wealth_planner/app.py`、`notebooks/` 和旧回测链路。
 
 ### 旧回测示例
 
@@ -88,14 +112,17 @@ python script/run_backtest.py
 
 ```text
 CryptoQuant/
-├── app.py                       # 当前主入口：财务规划器
-├── saved_params.json            # Streamlit 参数持久化
+├── wealth_planner/
+│   ├── app.py                   # 当前主入口：财务规划器
+│   ├── saved_params.json        # Streamlit 参数持久化
+│   └── scripts/
+│       └── plot_investment_formula.py
 ├── src/
 │   ├── backtest/                # 历史回测框架
 │   ├── data_handler/            # 数据下载与 bar 生成
 │   └── utils/                   # logger 等工具
 ├── notebooks/                   # 后期主要研究工作
-├── script/                      # 独立脚本，质量和维护状态不一致
+├── script/                      # 旧量化脚本与工具脚本
 ├── docs/tutorials/              # 本次整理后的精简文档
 └── docs/notes/                  # 个人知识库/量化路线图，不是系统说明书
 ```

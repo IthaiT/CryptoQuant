@@ -106,7 +106,7 @@ class BarGenerator:
         """
         dates = BarGeneratorUtil.get_date_range(self.base_dir, symbol, start_date, end_date)
         if not dates:
-            logger.warning(f"⊘ {symbol} no data available from {start_date}")
+            logger.warning("No data available for {} from {}", symbol, start_date)
             if period is None:
                 return pd.DataFrame()
             else:
@@ -132,7 +132,7 @@ class BarGenerator:
         current_bar = None
         
         date_range = f"{dates[0]} to {dates[-1]}" if len(dates) > 1 else dates[0]
-        logger.info(f"📊 Generating Bars: {symbol} | {date_range}")
+        logger.info("Generating bars: {} | {}", symbol, date_range)
         
         date_iter = tqdm(
             dates,
@@ -166,7 +166,7 @@ class BarGenerator:
                     current_bar = None
         
         result_df = pd.DataFrame(self.bars)
-        logger.info(f"✅ Complete: {len(result_df)} bars")
+        logger.info("Complete: {} bars", len(result_df))
         
         return result_df
     
@@ -193,8 +193,8 @@ class BarGenerator:
         
         sorted_periods = sorted(period_groups.keys())
         
-        logger.info(f"📊 Generating Bars by {period}: {symbol}")
-        logger.info(f"   Total periods: {len(sorted_periods)}")
+        logger.info("Generating bars by {}: {}", period, symbol)
+        logger.info("Total periods: {}", len(sorted_periods))
         
         period_iter = tqdm(
             sorted_periods,
@@ -222,7 +222,7 @@ class BarGenerator:
                 
                 for ts, price, amount in zip(timestamps, prices, amounts):
                     if current_bar is None:
-                        current_bar = bar_rule.init_bar(ts, price, amount)
+                        current_bar = bar_rule.init_bar(ts, price, amount, self.bars)
                     else:
                         bar_rule.update_bar(current_bar, ts, price, amount)
                     
@@ -235,4 +235,4 @@ class BarGenerator:
             if self.bars:
                 yield period_key, pd.DataFrame(self.bars)
         
-        logger.info("✅ Complete")
+        logger.info("Complete")

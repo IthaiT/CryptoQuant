@@ -45,3 +45,8 @@ packages = ["src.backtest", "src.data_handler", "src.utils"]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["tests/_tmp"]
+python_files = ["test_*.py"]

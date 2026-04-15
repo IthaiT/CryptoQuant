@@ -137,13 +137,13 @@ class RawDataDownloader:
                 return False
             
             if response.status_code != 200:
-                logger.warning(f"⚠️  {date_str}: HTTP {response.status_code}")
+                logger.warning("{}: HTTP {}", date_str, response.status_code)
                 return False
             
             # 4. Extract and read CSV from ZIP
             with zipfile.ZipFile(BytesIO(response.content)) as zf:
                 if csv_filename not in zf.namelist():
-                    logger.warning(f"⚠️  {date_str}: CSV 文件未找到")
+                    logger.warning("{}: CSV file not found in archive", date_str)
                     return False
                 
                 with zf.open(csv_filename) as f:
@@ -151,7 +151,7 @@ class RawDataDownloader:
                     df = pd.read_csv(f, header=None, names=self.bar_header)
 
             if df.empty:
-                logger.warning(f"⚠️  {date_str}: 空数据")
+                logger.warning("{}: empty data", date_str)
                 return False
             
             # 6. Standardize columns (data type conversions)
@@ -164,7 +164,7 @@ class RawDataDownloader:
             return True
         
         except Exception as e:
-            logger.error(f"✗ {date_str}: {type(e).__name__}")
+            logger.error("{}: {}", date_str, type(e).__name__)
             return False
     
     def _standardize_columns(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -258,7 +258,7 @@ class RawDataDownloader:
         
         # Print header via logger
         date_range = f"{self.start_date} 至 {self.end_date}"
-        logger.info(f"\n📥 下载数据: {data_desc} | {date_range}")
+        logger.info("Downloading data: {} | {}", data_desc, date_range)
         logger.info("-" * 70)
         
         # Generate all dates to process
@@ -300,18 +300,18 @@ class RawDataDownloader:
                                     success_count += 1
                         except Exception as e:
                             date_str = future_to_date[future]
-                            logger.error(f"✗ {date_str}: {type(e).__name__}")
+                            logger.error("{}: {}", date_str, type(e).__name__)
                         finally:
                             pbar.update(1)
                 except KeyboardInterrupt:
-                    logger.warning("\n\n⚠️  检测到 Ctrl+C，正在停止下载...")
+                    logger.warning("Detected Ctrl+C, stopping downloads")
                     # Cancel all pending futures
                     for future in future_to_date.keys():
                         future.cancel()
                     executor.shutdown(wait=False, cancel_futures=True)
-                    logger.info("✅ 已停止下载")
+                    logger.info("Download stopped")
                     return
         
         # Print summary via logger
         logger.info("-" * 70)
-        logger.info(f"✅ 完成: 成功下载 {success_count}/{total_days} 天的数据\n")
+        logger.info("Complete: downloaded {}/{} days", success_count, total_days)
