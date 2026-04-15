@@ -36,7 +36,6 @@
 
 - `src/data_handler/`: Binance 原始数据下载、Dollar/Volume/Tick Bar 生成
 - `src/backtest/`: Backtrader 封装、实时图表、静态报告、示例策略
-- `src/strategies/`: 另一套较早的向量化策略接口
 - `notebooks/`: 后期主要研究工作，明显受 *Advances in Financial Machine Learning* 影响
 
 ## Notebooks 一句话地图
@@ -60,11 +59,10 @@
 
 ### 财务规划器
 
-`pyproject.toml` 目前只覆盖了量化工具链依赖，没有把 `streamlit` 和 `plotly` 写进去，所以跑 `app.py` 需要额外安装。
+`app.py` 的核心依赖已经写进 `pyproject.toml`；只有敏感性分析用到的 `scikit-image` 仍然放在可选依赖里。
 
 ```bash
 pip install -e .
-pip install streamlit plotly
 streamlit run app.py
 ```
 
@@ -95,7 +93,6 @@ CryptoQuant/
 ├── src/
 │   ├── backtest/                # 历史回测框架
 │   ├── data_handler/            # 数据下载与 bar 生成
-│   ├── strategies/              # 较早的向量化策略接口
 │   └── utils/                   # logger 等工具
 ├── notebooks/                   # 后期主要研究工作
 ├── script/                      # 独立脚本，质量和维护状态不一致

@@ -9,11 +9,8 @@ description = "Crypto quantitative research workspace with data handling, backte
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "python-binance>=1.0.19",
   "pandas>=2.0",
-  "ta-lib>=0.4.28",
   "numpy>=1.24",
-  "python-dotenv>=1.0.0",
   "ccxt>=4.0.0",
   "tqdm>=4.65.0",
   "backtrader>=1.9.78",
@@ -44,7 +41,7 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["src.strategies", "src.backtest", "src.data_handler", "src.utils"]
+packages = ["src.backtest", "src.data_handler", "src.utils"]
 
 [tool.setuptools.package-data]
 "*" = ["py.typed"]
