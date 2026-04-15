@@ -10,6 +10,7 @@ import pandas as pd
 import zstandard as zstd
 from datetime import datetime, timedelta
 from tqdm import tqdm
+from src.utils.logger import logger
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -24,7 +25,7 @@ def load_kline_file(file_path: Path) -> pd.DataFrame:
             df = pd.read_csv(reader)
         return df
     except Exception as e:
-        print(f"  ⚠️  Error loading {file_path.name}: {e}")
+        logger.warning("Error loading {}: {}", file_path.name, e)
         return pd.DataFrame()
 
 
@@ -82,22 +83,22 @@ def merge_klines(
         output_dir = project_root / "data"
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    print("\n" + "=" * 70)
-    print(f"Merging Klines: {symbol} | {interval} | {start_date} to {end_date}")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("Merging Klines: {} | {} | {} to {}", symbol, interval, start_date, end_date)
+    logger.info("=" * 70)
     
     # Get list of files
-    print("\n📂 Scanning for kline files...")
+    logger.info("Scanning for kline files...")
     files = get_kline_files(symbol, interval, start_date, end_date, base_dir)
     
     if not files:
-        print(f"⚠️  No kline files found for {symbol} {interval} in date range")
+        logger.warning("No kline files found for {} {} in date range", symbol, interval)
         return pd.DataFrame()
     
-    print(f"✅ Found {len(files)} daily kline files")
+    logger.info("Found {} daily kline files", len(files))
     
     # Load and merge all files
-    print(f"\n📊 Loading and merging klines...")
+    logger.info("Loading and merging klines...")
     all_data = []
     
     for file_path in tqdm(files, desc="Processing", unit="file", colour="green"):
@@ -106,47 +107,45 @@ def merge_klines(
             all_data.append(df)
     
     if not all_data:
-        print("⚠️  No valid data loaded")
+        logger.warning("No valid data loaded")
         return pd.DataFrame()
     
     # Concatenate all data
-    print("\n🔗 Concatenating data...")
+    logger.info("Concatenating data...")
     merged_df = pd.concat(all_data, ignore_index=True)
     
     # Sort by timestamp
-    print("🔄 Sorting by timestamp...")
+    logger.info("Sorting by timestamp...")
     merged_df = merged_df.sort_values('open_time').reset_index(drop=True)
     
     # Remove duplicates (in case of overlap)
-    print("🧹 Removing duplicates...")
+    logger.info("Removing duplicates...")
     original_len = len(merged_df)
     merged_df = merged_df.drop_duplicates(subset=['open_time'], keep='first')
     duplicates_removed = original_len - len(merged_df)
     if duplicates_removed > 0:
-        print(f"  Removed {duplicates_removed} duplicate rows")
+        logger.info("Removed {} duplicate rows", duplicates_removed)
     
     # Save to CSV
     output_filename = f"{symbol}_klines_{interval}_{start_date}_{end_date}.csv"
     output_path = output_dir / output_filename
     
-    print(f"\n💾 Saving to {output_path}...")
+    logger.info("Saving to {}...", output_path)
     merged_df.to_csv(output_path, index=False)
     
     # Print summary
-    print("\n" + "=" * 70)
-    print("✅ Merge Complete")
-    print("=" * 70)
-    print(f"Output file: {output_path}")
-    print(f"Total rows: {len(merged_df):,}")
-    print(f"Columns: {', '.join(merged_df.columns)}")
-    print(f"Time range: {merged_df['open_time'].min()} → {merged_df['open_time'].max()}")
-    print(f"File size: {output_path.stat().st_size / 1024 / 1024:.2f} MB")
+    logger.info("=" * 70)
+    logger.info("Merge Complete")
+    logger.info("=" * 70)
+    logger.info("Output file: {}", output_path)
+    logger.info("Total rows: {:,}", len(merged_df))
+    logger.info("Columns: {}", ", ".join(merged_df.columns))
+    logger.info("Time range: {} → {}", merged_df['open_time'].min(), merged_df['open_time'].max())
+    logger.info("File size: {:.2f} MB", output_path.stat().st_size / 1024 / 1024)
     
     # Show sample data
-    print("\n📋 First 5 rows:")
-    print(merged_df.head())
-    print("\n📋 Last 5 rows:")
-    print(merged_df.tail())
+    logger.info("First 5 rows:\n{}", merged_df.head().to_string())
+    logger.info("Last 5 rows:\n{}", merged_df.tail().to_string())
     
     return merged_df
 
@@ -168,15 +167,13 @@ def main():
         )
         
         if merged_df.empty:
-            print("\n⚠️  No data was merged")
+            logger.warning("No data was merged")
             sys.exit(1)
         
-        print("\n✅ Success!\n")
+        logger.info("Success!")
         
-    except Exception as e:
-        print(f"\n❌ Error: {e}")
-        import traceback
-        traceback.print_exc()
+    except Exception:
+        logger.exception("Error merging klines")
         sys.exit(1)
 
 

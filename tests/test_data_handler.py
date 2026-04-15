@@ -7,6 +7,7 @@ from pathlib import Path
 
 from src.data_handler.raw_data_downloader import RawDataDownloader
 from src.data_handler.bar_generator import DollarBar, VolumeBar, TickBar
+from src.utils.logger import logger
 
 project_root = Path(__file__).parent.parent
 # ============================================================
@@ -24,27 +25,27 @@ BAR_OUTPUT_DIR = project_root / "data" / "tmp_data"
 def save_bars(df, filename: str):
     """Save generated bars to data/tmp_data for later analysis."""
     if df is None or df.empty:
-        print(f"⚠️ No bars to save for {filename}")
+        logger.warning("No bars to save for {}", filename)
         return
     BAR_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = BAR_OUTPUT_DIR / filename
     df.to_csv(output_path, index=False)
-    print(f"💾 Saved bars to: {output_path}")
+    logger.info("Saved bars to: {}", output_path)
 
 
 def test_raw_download():
     """Test downloading raw data from Binance Public Data repository."""
     if SKIP_DOWNLOAD:
-        print("\n" + "=" * 70)
-        print("TEST 1: Download Skipped (SKIP_DOWNLOAD=True)")
-        print("=" * 70)
-        print("💡 To test download, set SKIP_DOWNLOAD=False")
+        logger.info("=" * 70)
+        logger.info("TEST 1: Download Skipped (SKIP_DOWNLOAD=True)")
+        logger.info("=" * 70)
+        logger.info("To test download, set SKIP_DOWNLOAD=False")
         return
     
-    print("\n" + "=" * 70)
-    print("TEST 1: Download Raw Data (AggTrades) from Binance Public Data")
-    print("=" * 70)
-    print("📝 Downloading aggTrades (Zstandard compressed)...\n")
+    logger.info("=" * 70)
+    logger.info("TEST 1: Download Raw Data (AggTrades) from Binance Public Data")
+    logger.info("=" * 70)
+    logger.info("Downloading aggTrades (Zstandard compressed)...")
     
     downloader = RawDataDownloader()
     
@@ -55,19 +56,19 @@ def test_raw_download():
             start_date=DEFAULT_START_DATE,
             end_date=DEFAULT_END_DATE
         )
-        print("✅ Download completed!")
-        print(f"📁 Data saved to: data/raw_data/{DEFAULT_SYMBOL}/aggTrades/2026-01/*.csv.zst")
+        logger.info("Download completed!")
+        logger.info("Data saved to: data/raw_data/{}/aggTrades/2026-01/*.csv.zst", DEFAULT_SYMBOL)
     except Exception as e:
-        print(f"❌ Download failed: {e}")
-        print("💡 Tip: Check if dates are available in Binance public data repository")
+        logger.error("Download failed: {}", e)
+        logger.info("Tip: Check if dates are available in Binance public data repository")
         raise
 
 
 def test_generate_dollar_bars():
     """Test Dollar Bar generation (cross-day support)."""
-    print("\n" + "=" * 70)
-    print("TEST 2: Generate Dollar Bars (Cross-Day Support)")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("TEST 2: Generate Dollar Bars (Cross-Day Support)")
+    logger.info("=" * 70)
     
     symbol = DEFAULT_SYMBOL
     start_date = DEFAULT_START_DATE
@@ -82,30 +83,32 @@ def test_generate_dollar_bars():
             end_date=end_date
         )
         
-        print(f"✅ Generated {len(df_bars)} Dollar Bars\n")
-        print("📊 Bar Structure:")
-        print(f"  Total bars: {len(df_bars)}")
+        logger.info("Generated {} Dollar Bars", len(df_bars))
+        logger.info("Bar Structure:")
+        logger.info("  Total bars: {}", len(df_bars))
         if len(df_bars) > 0:
-            print(f"  Time range: {df_bars['timestamp'].iloc[0]} → {df_bars['timestamp'].iloc[-1]}")
-            print(f"  Avg price: ${df_bars['close'].mean():.2f}")
-            print(f"  Avg volume: {df_bars['volume'].mean():.4f} BTC")
-            print(f"  Avg trades per bar: {df_bars['num_trades'].mean():.0f}")
+            logger.info("  Time range: {} → {}", df_bars['timestamp'].iloc[0], df_bars['timestamp'].iloc[-1])
+            logger.info("  Avg price: ${:.2f}", df_bars['close'].mean())
+            logger.info("  Avg volume: {:.4f} BTC", df_bars['volume'].mean())
+            logger.info("  Avg trades per bar: {:.0f}", df_bars['num_trades'].mean())
         
-        print("\n📈 First 5 bars:")
-        print(df_bars[['timestamp', 'open', 'high', 'low', 'close', 'volume', 'num_trades']].head())
+        logger.info(
+            "First 5 bars:\n{}",
+            df_bars[['timestamp', 'open', 'high', 'low', 'close', 'volume', 'num_trades']].head().to_string(),
+        )
         save_bars(df_bars, f"{symbol}_dollar_{start_date}_{end_date}.csv")
         
         return df_bars
     except Exception as e:
-        print(f"❌ Dollar Bar generation failed: {e}")
+        logger.error("Dollar Bar generation failed: {}", e)
         raise
 
 
 def test_generate_volume_bars():
     """Test Volume Bar generation (cross-day support)."""
-    print("\n" + "=" * 70)
-    print("TEST 3: Generate Volume Bars (Cross-Day Support)")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("TEST 3: Generate Volume Bars (Cross-Day Support)")
+    logger.info("=" * 70)
     
     symbol = DEFAULT_SYMBOL
     start_date = DEFAULT_START_DATE
@@ -120,30 +123,32 @@ def test_generate_volume_bars():
             end_date=end_date
         )
         
-        print(f"✅ Generated {len(df_bars)} Volume Bars\n")
-        print("📊 Bar Statistics:")
-        print(f"  Total bars: {len(df_bars)}")
+        logger.info("Generated {} Volume Bars", len(df_bars))
+        logger.info("Bar Statistics:")
+        logger.info("  Total bars: {}", len(df_bars))
         if len(df_bars) > 0:
-            print(f"  Time range: {df_bars['timestamp'].iloc[0]} → {df_bars['timestamp'].iloc[-1]}")
-            print(f"  Avg volume per bar: {df_bars['volume'].mean():.4f} BTC")
-            print(f"  Avg price: ${df_bars['close'].mean():.2f}")
-            print(f"  Avg trades per bar: {df_bars['num_trades'].mean():.0f}")
+            logger.info("  Time range: {} → {}", df_bars['timestamp'].iloc[0], df_bars['timestamp'].iloc[-1])
+            logger.info("  Avg volume per bar: {:.4f} BTC", df_bars['volume'].mean())
+            logger.info("  Avg price: ${:.2f}", df_bars['close'].mean())
+            logger.info("  Avg trades per bar: {:.0f}", df_bars['num_trades'].mean())
         
-        print("\n📈 First 5 bars:")
-        print(df_bars[['timestamp', 'close', 'volume', 'dollar_volume', 'num_trades']].head())
+        logger.info(
+            "First 5 bars:\n{}",
+            df_bars[['timestamp', 'close', 'volume', 'dollar_volume', 'num_trades']].head().to_string(),
+        )
         save_bars(df_bars, f"{symbol}_volume_{start_date}_{end_date}.csv")
         
         return df_bars
     except Exception as e:
-        print(f"❌ Volume Bar generation failed: {e}")
+        logger.error("Volume Bar generation failed: {}", e)
         raise
 
 
 def test_generate_tick_bars():
     """Test Tick Bar generation (cross-day support)."""
-    print("\n" + "=" * 70)
-    print("TEST 4: Generate Tick Bars (Cross-Day Support)")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("TEST 4: Generate Tick Bars (Cross-Day Support)")
+    logger.info("=" * 70)
     
     symbol = DEFAULT_SYMBOL
     start_date = DEFAULT_START_DATE
@@ -158,30 +163,32 @@ def test_generate_tick_bars():
             end_date=end_date
         )
         
-        print(f"✅ Generated {len(df_bars)} Tick Bars (1000 trades/bar)\n")
-        print("📊 Bar Statistics:")
-        print(f"  Total bars: {len(df_bars)}")
+        logger.info("Generated {} Tick Bars (1000 trades/bar)", len(df_bars))
+        logger.info("Bar Statistics:")
+        logger.info("  Total bars: {}", len(df_bars))
         if len(df_bars) > 0:
-            print(f"  Time range: {df_bars['timestamp'].iloc[0]} → {df_bars['timestamp'].iloc[-1]}")
-            print(f"  Avg trades per bar: {df_bars['num_trades'].mean():.0f}")
-            print(f"  Avg volume: {df_bars['volume'].mean():.4f} BTC")
-            print(f"  Avg price: ${df_bars['close'].mean():.2f}")
+            logger.info("  Time range: {} → {}", df_bars['timestamp'].iloc[0], df_bars['timestamp'].iloc[-1])
+            logger.info("  Avg trades per bar: {:.0f}", df_bars['num_trades'].mean())
+            logger.info("  Avg volume: {:.4f} BTC", df_bars['volume'].mean())
+            logger.info("  Avg price: ${:.2f}", df_bars['close'].mean())
         
-        print("\n📈 First 5 bars:")
-        print(df_bars[['timestamp', 'open', 'close', 'volume', 'num_trades']].head())
+        logger.info(
+            "First 5 bars:\n{}",
+            df_bars[['timestamp', 'open', 'close', 'volume', 'num_trades']].head().to_string(),
+        )
         save_bars(df_bars, f"{symbol}_tick_{start_date}_{end_date}.csv")
         
         return df_bars
     except Exception as e:
-        print(f"❌ Tick Bar generation failed: {e}")
+        logger.error("Tick Bar generation failed: {}", e)
         raise
 
 
 def test_custom_bar_rules():
     """Test custom bar generation by extending BarGenerator."""
-    print("\n" + "=" * 70)
-    print("TEST 5: Custom Bar Rules (User-Defined Logic)")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("TEST 5: Custom Bar Rules (User-Defined Logic)")
+    logger.info("=" * 70)
     
     # Define custom bar class: close bar if price change > 0.5%
     class PriceChangeBar(DollarBar):
@@ -216,41 +223,40 @@ def test_custom_bar_rules():
             end_date=end_date
         )
         
-        print(f"✅ Generated {len(df_bars)} Custom Bars (price change > 0.5%)\n")
-        print("📊 Bar Statistics:")
-        print(f"  Total bars: {len(df_bars)}")
+        logger.info("Generated {} Custom Bars (price change > 0.5%)", len(df_bars))
+        logger.info("Bar Statistics:")
+        logger.info("  Total bars: {}", len(df_bars))
         if len(df_bars) > 0:
-            print(f"  Time range: {df_bars['timestamp'].iloc[0]} → {df_bars['timestamp'].iloc[-1]}")
+            logger.info("  Time range: {} → {}", df_bars['timestamp'].iloc[0], df_bars['timestamp'].iloc[-1])
             
             # Calculate price change for each bar
             price_changes = ((df_bars['close'] - df_bars['open']).abs() / df_bars['open'] * 100)
-            print(f"  Avg price change per bar: {price_changes.mean():.3f}%")
-            print(f"  Avg trades per bar: {df_bars['num_trades'].mean():.0f}")
+            logger.info("  Avg price change per bar: {:.3f}%", price_changes.mean())
+            logger.info("  Avg trades per bar: {:.0f}", df_bars['num_trades'].mean())
         
-        print("\n📈 First 5 bars:")
         cols = ['timestamp', 'open', 'close', 'volume', 'num_trades']
-        print(df_bars[cols].head())
+        logger.info("First 5 bars:\n{}", df_bars[cols].head().to_string())
         save_bars(df_bars, f"{symbol}_custom_price_change_{start_date}_{end_date}.csv")
         
         return df_bars
     except Exception as e:
-        print(f"❌ Custom Bar generation failed: {e}")
+        logger.error("Custom Bar generation failed: {}", e)
         raise
 
 
 def test_klines_download():
     """Test downloading Klines (OHLCV) data from Binance Public Data repository."""
     if SKIP_DOWNLOAD:
-        print("\n" + "=" * 70)
-        print("TEST 1.5: Klines Download Skipped (SKIP_DOWNLOAD=True)")
-        print("=" * 70)
-        print("💡 To test Klines download, set SKIP_DOWNLOAD=False")
+        logger.info("=" * 70)
+        logger.info("TEST 1.5: Klines Download Skipped (SKIP_DOWNLOAD=True)")
+        logger.info("=" * 70)
+        logger.info("To test Klines download, set SKIP_DOWNLOAD=False")
         return
     
-    print("\n" + "=" * 70)
-    print("TEST 1.5: Download Klines (OHLCV) Data from Binance Public Data")
-    print("=" * 70)
-    print("📝 Downloading Klines with 1m interval (Zstandard compressed)...\n")
+    logger.info("=" * 70)
+    logger.info("TEST 1.5: Download Klines (OHLCV) Data from Binance Public Data")
+    logger.info("=" * 70)
+    logger.info("Downloading Klines with 1m interval (Zstandard compressed)...")
     
     downloader = RawDataDownloader()
     
@@ -262,19 +268,19 @@ def test_klines_download():
             end_date=DEFAULT_END_DATE,
             interval="1m"
         )
-        print("✅ Klines download completed!")
-        print(f"📁 Data saved to: data/raw_data/{DEFAULT_SYMBOL}/klines/1m/2026-01/*.csv.zst")
+        logger.info("Klines download completed!")
+        logger.info("Data saved to: data/raw_data/{}/klines/1m/2026-01/*.csv.zst", DEFAULT_SYMBOL)
     except Exception as e:
-        print(f"❌ Klines download failed: {e}")
-        print("💡 Tip: Check if Klines data is available in Binance public data repository")
+        logger.error("Klines download failed: {}", e)
+        logger.info("Tip: Check if Klines data is available in Binance public data repository")
         raise
 
 
 def main():
     """Run all tests sequentially."""
-    print("\n" + "=" * 70)
-    print("CryptoQuant Data Pipeline Test Suite")
-    print("=" * 70)
+    logger.info("=" * 70)
+    logger.info("CryptoQuant Data Pipeline Test Suite")
+    logger.info("=" * 70)
     
     try:
         # Test 1: Download aggTrades data
@@ -296,16 +302,15 @@ def main():
         test_klines_download()
 
         
-        print("\n" + "=" * 70)
-        print("✅ All tests completed successfully!")
-        print("=" * 70)
+        logger.info("=" * 70)
+        logger.info("All tests completed successfully!")
+        logger.info("=" * 70)
         
     except Exception as e:
-        print("\n" + "=" * 70)
-        print(f"❌ Test Suite Failed: {e}")
-        print("=" * 70)
-        import traceback
-        traceback.print_exc()
+        logger.error("=" * 70)
+        logger.error("Test Suite Failed: {}", e)
+        logger.error("=" * 70)
+        logger.exception("Unhandled exception in data pipeline test suite")
         sys.exit(1)
 
 

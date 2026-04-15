@@ -14,6 +14,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 from scipy import stats
 import warnings
+from src.utils.logger import logger
 
 # Suppress matplotlib font warnings
 warnings.filterwarnings('ignore', category=UserWarning)
@@ -145,7 +146,7 @@ def generate_report(df: pd.DataFrame, bar_type: str, output_dir: Path):
         f.write("  - Skewness ~ 0: Symmetric distribution\n")
         f.write("=" * 80 + "\n")
     
-    print(f"OK: Report saved - {report_file.name}")
+    logger.info("Report saved - {}", report_file.name)
 
 
 def plot_distributions(df: pd.DataFrame, bar_type: str, output_dir: Path):
@@ -211,7 +212,7 @@ def plot_distributions(df: pd.DataFrame, bar_type: str, output_dir: Path):
     plt.tight_layout()
     plt.savefig(output_dir / 'distributions.png', dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"OK: Saved - distributions.png")
+    logger.info("Saved - distributions.png")
 
 
 def plot_timeseries(df: pd.DataFrame, bar_type: str, output_dir: Path):
@@ -260,7 +261,7 @@ def plot_timeseries(df: pd.DataFrame, bar_type: str, output_dir: Path):
     plt.tight_layout()
     plt.savefig(output_dir / 'timeseries.png', dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"OK: Saved - timeseries.png")
+    logger.info("Saved - timeseries.png")
 
 
 def main():
@@ -277,15 +278,15 @@ def main():
     if not file_path.is_absolute():
         file_path = project_root / file_path
     
-    print("\n" + "=" * 80)
-    print("Normality Analysis")
-    print("=" * 80)
-    print(f"\nFile: {file_path.name}")
+    logger.info("=" * 80)
+    logger.info("Normality Analysis")
+    logger.info("=" * 80)
+    logger.info("File: {}", file_path.name)
     
     # Load data
     df, bar_type = load_data(file_path)
-    print(f"Type: {bar_type}")
-    print(f"Data: {len(df):,} bars\n")
+    logger.info("Type: {}", bar_type)
+    logger.info("Data: {:,} bars", len(df))
     
     # Calculate returns
     df = calculate_returns(df)
@@ -293,19 +294,19 @@ def main():
     # Create output directory
     output_dir = project_root / "data" / "preprocess_data" / f"{file_path.stem}_analysis"
     output_dir.mkdir(parents=True, exist_ok=True)
-    print(f"Output: {output_dir.relative_to(project_root)}/\n")
+    logger.info("Output: {}/", output_dir.relative_to(project_root))
     
     # Generate report
-    print("Generating report...")
+    logger.info("Generating report...")
     generate_report(df, bar_type, output_dir)
     
-    print("\nGenerating plots...")
+    logger.info("Generating plots...")
     plot_distributions(df, bar_type, output_dir)
     plot_timeseries(df, bar_type, output_dir)
     
-    print("\n" + "=" * 80)
-    print(f"OK: Analysis complete! Results saved to: {output_dir.relative_to(project_root)}")
-    print("=" * 80 + "\n")
+    logger.info("=" * 80)
+    logger.info("Analysis complete! Results saved to: {}", output_dir.relative_to(project_root))
+    logger.info("=" * 80)
 
 
 if __name__ == "__main__":

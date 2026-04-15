@@ -13,6 +13,7 @@ import matplotlib
 matplotlib.use('TkAgg')
 
 from src.backtest import quick_backtest, RSIBacktraderStrategy
+from src.utils.logger import logger
 
 
 def main():
@@ -32,19 +33,19 @@ def main():
     
     # 检查数据文件是否存在；如不存在尝试生成演示数据
     if not data_path:
-        print("❌ 未找到数据文件: 期望位置为以下之一：")
+        logger.error("未找到数据文件，期望位置为以下之一：")
         for p in candidates:
-            print(f" - {p}")
+            logger.error(" - {}", p)
 
-        print("请先运行 Data/BTCUSDT_data_download.py 下载真实数据")
+        logger.error("请先准备真实数据文件后再运行回测。")
         return
     
-    print("=" * 60)
-    print("BTC/USDT RSI 策略回测")
-    print("=" * 60)
-    print(f"数据文件: {data_path}")
-    print(f"时间周期: 5 分钟")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("BTC/USDT RSI 策略回测")
+    logger.info("=" * 60)
+    logger.info("数据文件: {}", data_path)
+    logger.info("时间周期: 5 分钟")
+    logger.info("=" * 60)
     
     # 策略参数
     strategy_params = {
@@ -66,12 +67,12 @@ def main():
     )
     
     # 打印关键指标
-    print("\n" + "=" * 60)
-    print("回测完成！报告已生成在 ./reports 目录")
-    print("=" * 60)
-    print("\n浏览器打开地址: http://127.0.0.1:8765")
-    print("按 Ctrl+C 退出")
-    print("=" * 60)
+    logger.info("=" * 60)
+    logger.info("回测完成！报告已生成在 ./reports 目录")
+    logger.info("=" * 60)
+    logger.info("浏览器打开地址: http://127.0.0.1:8765")
+    logger.info("按 Ctrl+C 退出")
+    logger.info("=" * 60)
     
     # 保持服务器运行，让用户能够查看图表
     try:
@@ -79,7 +80,7 @@ def main():
             import time
             time.sleep(1)
     except KeyboardInterrupt:
-        print("\n服务器已关闭")
+        logger.info("服务器已关闭")
         import sys
         sys.exit(0)
     
